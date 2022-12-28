@@ -1,0 +1,24 @@
+// Utils
+@import "utils/variables";
+@import "utils/mixins";
+
+// Global style
+body {
+    background: $dark-brown;
+    overflow-x: hidden;
+    width: 100%;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 200;
+    color: $white;
+}
+
+a {
+    font-family: 'Nunito Sans', sans-serif;
+    color: $white;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+// Pages
+@import "homepage";

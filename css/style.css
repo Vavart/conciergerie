@@ -1,0 +1,117 @@
+body {
+  background: #665E53;
+  overflow-x: hidden;
+  width: 100%;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 200;
+  color: #ffffff;
+}
+
+a {
+  font-family: "Nunito Sans", sans-serif;
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+}
+
+.homepage {
+  min-height: 625px;
+  padding: 25px 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cont-logo {
+  width: 100px;
+  height: 100px;
+}
+
+h1 {
+  font-family: "Abril Fatface", serif;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 55px;
+}
+
+main {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.cat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cat .big-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cat .big-pic .pic {
+  width: 200px;
+  height: 200px;
+  background: #AD987D;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cat .big-pic .pic img {
+  width: 100px;
+  height: 100px;
+}
+.cat .big-pic h2 {
+  font-family: "Abril Fatface", serif;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 30px;
+  margin-top: 10px;
+}
+.cat .cont-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 25px;
+}
+.cat .cont-actions .action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: 175px;
+}
+.cat .cont-actions .action .pic {
+  width: 80px;
+  height: 80px;
+  background: #504661;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cat .cont-actions .action .pic img {
+  width: 50px;
+  height: 50px;
+}
+.cat .cont-actions .action p {
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  main {
+    flex-direction: column;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

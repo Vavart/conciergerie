@@ -1,0 +1,23 @@
+{
+  "name": "conciergerie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass" : "sass sass/main.scss css/style.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vavart/conciergerie.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vavart/conciergerie/issues"
+  },
+  "homepage": "https://github.com/Vavart/conciergerie#readme",
+  "dependencies": {
+    "sass": "^1.57.1"
+  }
+}
