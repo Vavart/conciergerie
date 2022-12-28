@@ -1,0 +1,126 @@
+.cont-header {
+    @include flex-center;
+    flex-direction: column;
+}
+
+form {
+    @include flex-center;
+    flex-direction: column;
+}
+
+.sec-title {
+    @include h2;
+    text-align: left;
+    margin-top: 40px;
+}
+
+.section {
+    margin: 40px auto;
+    max-width: 1200px;
+    @include flex-center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sec {
+    margin: 15px 0;
+    @include flex-center;
+    gap: 25px;
+
+    .subtitle {
+        @include text;
+        font-size: 22px;
+    }
+
+    &.col {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+// Spe for phone numbers
+.cont-numeros {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.cont-add-phone-number {
+    .add-phone-number {
+        @include btn-cta;
+    }
+}
+
+.cont-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    label {
+        @include text;
+        text-align: left;
+    }
+
+    input {
+        background: $light-brown;
+        width: 100%;
+        padding: 12px 24px;
+        border-radius: 5px;
+        @include text;
+        border: none;
+        outline: none;
+        text-align: left;
+
+        &::placeholder {
+            color: $white;
+            opacity: 0.4;
+            font-style: italic;
+            font-weight: 200;
+        }
+
+        &.locked {
+            background: $dark-purple;
+        }
+    }
+
+    &.large {
+        width: 800px;
+    }
+
+    &.radio {
+        @include flex-center;
+        flex-direction: row;
+
+
+        input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding: 0;
+            width: 25px;
+            height: 25px;
+            border: 1px solid $white;
+            border-radius: 50%;
+            transition: 0.1s all linear;
+            cursor: pointer;
+
+            &:checked { border: 6px solid $white; }
+        }
+    }
+}
+
+.cont-btns {
+    width: 100%;
+    @include flex-center;
+    justify-content: space-between;
+
+    a {
+        @include btn-cta-ghost;
+    }
+    
+
+    button {
+        @include btn-cta;
+    }
+}

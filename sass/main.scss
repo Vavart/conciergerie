@@ -19,6 +19,19 @@ a {
     text-align: center;
 }
 
+.page {
+    min-height: 625px;
+    padding: 25px 150px;
+    
+    @include flex-center;
+    flex-direction: column;
+}
+
+.menu {
+    @include btn-cta;
+    margin-top: 15px;
+}
 
 // Pages
 @import "homepage";
+@import "forms";

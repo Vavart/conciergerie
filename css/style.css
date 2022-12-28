@@ -14,7 +14,7 @@ a {
   text-align: center;
 }
 
-.homepage {
+.page {
   min-height: 625px;
   padding: 25px 150px;
   display: flex;
@@ -23,9 +23,24 @@ a {
   flex-direction: column;
 }
 
-.cont-logo {
-  width: 100px;
-  height: 100px;
+.menu {
+  background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
+  box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 15px;
+}
+.menu:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
 }
 
 h1 {
@@ -41,7 +56,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 75px;
 }
 
 .cat {
@@ -112,6 +127,189 @@ main {
   main {
     flex-direction: column;
   }
+}
+.cont-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sec-title {
+  font-family: "Abril Fatface", serif;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 30px;
+  text-align: left;
+  margin-top: 40px;
+}
+
+.section {
+  margin: 40px auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sec {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+.sec .subtitle {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  font-size: 22px;
+}
+.sec.col {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cont-numeros {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.cont-add-phone-number .add-phone-number {
+  background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
+  box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cont-add-phone-number .add-phone-number:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+
+.cont-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cont-input label {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  text-align: left;
+}
+.cont-input input {
+  background: #AD987D;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  text-align: left;
+}
+.cont-input input::placeholder {
+  color: #ffffff;
+  opacity: 0.4;
+  font-style: italic;
+  font-weight: 200;
+}
+.cont-input input.locked {
+  background: #504661;
+}
+.cont-input.large {
+  width: 800px;
+}
+.cont-input.radio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.cont-input.radio input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  transition: 0.1s all linear;
+  cursor: pointer;
+}
+.cont-input.radio input:checked {
+  border: 6px solid #ffffff;
+}
+
+.cont-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.cont-btns a {
+  background: none;
+  border: 3px solid #504661;
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cont-btns a:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+.cont-btns button {
+  background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
+  box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cont-btns button:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
 }
 
 /*# sourceMappingURL=style.css.map */
