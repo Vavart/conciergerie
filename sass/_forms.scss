@@ -20,6 +20,7 @@ form {
 .sec {
     margin: 15px 0;
     @include flex-center;
+    align-items: flex-end;
     gap: 25px;
 
     .subtitle {

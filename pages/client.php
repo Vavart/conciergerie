@@ -70,7 +70,7 @@
         </div>
 
 
-        <form action="" method="post">
+        <form action="../php/update_client_handler.php" method="post">
 
             <div class="main-form">
 
@@ -229,36 +229,43 @@
                         </div>
                     </div>
 
+                    <div class="cont-points">
+
                     <?php 
 
+                        $i = 0;
                         foreach($points as $point) { ?>
                         <div class="sec">
                             <div class="cont-input">
                                 <label for="total_points">Nombre de points</label>
-                                <input type="text" name="points_1" id="points_1" class="locked" readonly value="<?= $point['nb_points'] ?>">
+                                <input type="text" name="<?='points_'.$i+1 ?>" id="points" class="locked" readonly value="<?= $point['nb_points'] ?>">
                             </div>
                             <div class="cont-input">
                                 <label for="total_points">Date d'expiration</label>
-                                <input type="date" name="total_points" id="total_points" value="<?= $point['exp_date'] ?>" class="locked">
+                                <input type="date" name="<?='exp_date_'.$i+1 ?>" id="exp_date" value="<?= $point['exp_date'] ?>" class="locked" readonly>
+                            </div>
+                            <div class="cont-input">
+                                <button class="delete-btn" type="button">
+                                    X
+                                </button>
                             </div>
                         </div>
-                        <?php }
+                        <?php $i++; }
                     
                     ?>
-
-
+                    </div>
 
                     <div class="sec col">
                         <div class="cont-add-points">
                             <button type="button" class="add-points">
                                 Ajouter des points
                             </button>
-
+        
                             <!-- Hidden input to know how much phone numbers there are -->
-                            <input type="hidden" name="how_many_points" value="1">
+                            <input type="hidden" name="how_many_points" value=<?= count($points) ?>>
                         </div>
                     </div>
-                </div>
+            </div>
 
             <div class="cont-btns">
                 <a href="search_client.html" class="cancel">

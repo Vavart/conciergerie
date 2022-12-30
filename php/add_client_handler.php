@@ -22,7 +22,7 @@
     $code_value = str_pad($code_value, 4, '0', STR_PAD_LEFT);
     $code = $code_year."-".$code_name."-".$code_value;
     
-    // Updating in database
+    // Insert in the database
     $query = "INSERT INTO `client` (`id_client`, `name`, `surname`, `code`, `postal_address`, `facebook_username`, `instagram_username`, `email`, `membership`, `next_discount`) VALUES (0,'$prenom','$nom','$code','$address','$facebook','$instagram','$mail','$membership',0)";
 
     $result = $connect->query($query);
