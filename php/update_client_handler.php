@@ -30,10 +30,6 @@
     $how_many_phone_numbers_now = $_POST['how_many_phone_numbers'];
 
 
-    // echo '<pre>',var_dump($how_many_phone_numbers_now),'</pre>';
-    // die();
-
-
     // If there are more phone numbers than before
     if ($how_many_phone_numbers_now > $how_many_phone_numbers_before) {
 

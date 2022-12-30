@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un article - Conciergerie</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+
+<div class="page">
+    
+    <div class="cont-header">
+        <h1>Ajouter un article</h1>
+        <a href="index.html" class="menu">
+            Retour à l'accueil
+        </a>
+    </div>
+
+    <form action="../php/add_article_handler.php" method="post">
+
+        <div class="main-form">
+
+
+            <h2 class="sec-title">Informations article</h2>
+
+            <div class="section">
+                <div class="sec">
+                    <div class="cont-input large">
+                        <label for="product_name">Nom du produit</label>
+                        <input type="text" name="product_name" id="product_name" placeholder="Extrait de roche qui rajeunit de 10 ans" required>
+                    </div>
+                </div>
+
+                <div class="sec">
+                    <div class="cont-input">
+                        <label for="price">Prix unitaire (en €)</label>
+                        <input type="number" name="price" id="price" placeholder="10" required>
+                    </div>
+                    <div class="cont-input">
+                        <label for="nb_dispo">Nombre d'articles en stock</label>
+                        <input type="number" name="nb_dispo" id="nb_dispo" placeholder="2" required>
+                    </div>
+                </div>
+
+
+                <div class="sec col">
+                    <label for="status" class="subtitle">Statut :</label>
+
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="stock" checked>
+                        <label for="stock">En stock</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="available">
+                        <label for="available">Disponible</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="not_available">
+                        <label for="not_available">Non disponible</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="out_of_stock">
+                        <label for="out_of_stock">En rutpture de stock</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="gift">
+                        <label for="gift">Cadeau</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="packed">
+                        <label for="packed">Emballé</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="dispatched">
+                        <label for="dispatched">Expédié</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="arrived">
+                        <label for="arrived">Arrivé</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="delivered">
+                        <label for="delivered">Livré</label>
+                    </div>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="other">
+                        <label for="other">Autre</label>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="cont-btns">
+            <a href="index.html" class="cancel">
+                Annuler
+            </a>
+
+            <button type="submit">
+                Ajouter l'article
+            </button>
+        </div>
+
+
+    </form>
+   
+</div>
+    
+
+</body>
+</html>

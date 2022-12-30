@@ -268,7 +268,7 @@
             </div>
 
             <div class="cont-btns">
-                <a href="search_client.html" class="cancel">
+                <a href="search_client.php" class="cancel">
                     Annuler
                 </a>
 

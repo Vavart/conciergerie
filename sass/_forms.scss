@@ -34,7 +34,7 @@ form {
     }
 }
 
-// Spcial for phone numbers
+// Special for phone numbers
 .cont-numeros {
     display: flex;
     flex-direction: column;
@@ -47,7 +47,7 @@ form {
     }
 }
 
-// Spcial for points
+// Special for points
 .cont-add-points {
     display: flex;
     flex-direction: column;
@@ -60,6 +60,12 @@ form {
     }
 }
 
+// Special for client (command page)
+.cont-choose-client {
+    .choose-client {
+        @include btn-cta;
+    }
+}
 
 .cont-input {
     display: flex;
