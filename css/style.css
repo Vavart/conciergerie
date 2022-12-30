@@ -14,6 +14,16 @@ a {
   text-align: center;
 }
 
+.cont-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cont-header .caption {
+  font-style: italic;
+}
+
 .page {
   min-height: 625px;
   padding: 25px 150px;
@@ -23,6 +33,11 @@ a {
   flex-direction: column;
 }
 
+@media screen and (max-width: 1000px) {
+  .page {
+    padding: 25px 50px;
+  }
+}
 .menu {
   background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
   box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
@@ -128,13 +143,6 @@ main {
     flex-direction: column;
   }
 }
-.cont-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 form {
   display: flex;
   justify-content: center;
@@ -184,7 +192,6 @@ form {
 
 .cont-numeros {
   display: flex;
-  align-items: flex-end;
   flex-direction: column;
   gap: 25px;
 }
@@ -205,6 +212,31 @@ form {
   text-decoration: none;
 }
 .cont-add-phone-number .add-phone-number:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+
+.cont-add-points {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.cont-add-points .add-points {
+  background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
+  box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cont-add-points .add-points:hover {
   background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
 }
 
@@ -268,6 +300,34 @@ form {
 .cont-input.radio input:checked {
   border: 6px solid #ffffff;
 }
+.cont-input .cont-input-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.cont-input .delete-btn {
+  background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
+  box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  font-weight: 400;
+  color: #ffffff;
+  display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  text-decoration: none;
+  background: crimson;
+}
+.cont-input .delete-btn:hover {
+  background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+.cont-input .delete-btn:hover {
+  background: #c91237;
+}
 
 .cont-btns {
   width: 100%;
@@ -310,6 +370,33 @@ form {
 }
 .cont-btns button:hover {
   background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+
+.cont-search {
+  width: 100%;
+  margin: 50px auto;
+}
+.cont-search .cont-input {
+  width: 100%;
+}
+
+.cont-tab, table {
+  width: 100%;
+}
+
+tr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px auto;
+}
+
+tbody tr {
+  background: #AD987D;
+  border-radius: 5px;
+  padding: 12px 24px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

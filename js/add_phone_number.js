@@ -1,23 +1,53 @@
 const btnToAddPhoneNumber = document.querySelector(".add-phone-number");
 const contNumeros = document.querySelector(".cont-numeros");
-let nbOfNumbersAdded = 0;
+const howManyPhoneNumbersInput = document.getElementsByName("how_many_phone_numbers")[0];
+let nbOfNumbersAdded = howManyPhoneNumbersInput.value; // Necessarily 1 phone number for the client
+
+// Listening to every delete button already present
+const allDeleteBtns = Array.from(document.querySelectorAll(".delete-btn"));
+allDeleteBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const parent = btn.parentElement.parentElement;
+        contNumeros.removeChild(parent);
+        nbOfNumbersAdded--;
+        howManyPhoneNumbersInput.value = nbOfNumbersAdded;
+    })
+})
 
 // Onclick add antoher phone number
 btnToAddPhoneNumber.addEventListener("click", () => {
 
     nbOfNumbersAdded++;
+    howManyPhoneNumbersInput.value = nbOfNumbersAdded;
 
-    // Creating element
+    // Creating elements
     const div = document.createElement("div");
     div.classList.add("cont-input");
+
+    const innerDiv = document.createElement("div");
+    innerDiv.classList.add("cont-input-btn");
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "X";
+    deleteBtn.classList.add("delete-btn");
+
     const input = document.createElement("input");
-    input.setAttribute("type", "text")
+    input.setAttribute("type", "text");
     input.setAttribute("name", `phone_number_${nbOfNumbersAdded}`);
-    input.setAttribute("id", "phone_number")
-    input.setAttribute("placeholder", "+3364585956271")
+    input.setAttribute("id", "phone_number");
+    input.setAttribute("placeholder", "+3364585956271");
 
     // Add element do DOM
-    div.appendChild(input)
-    contNumeros.appendChild(div)
+    innerDiv.appendChild(input);
+    innerDiv.appendChild(deleteBtn);
+    div.appendChild(innerDiv);
+    contNumeros.appendChild(div);
 
+    // Listening to events (to delete)
+    deleteBtn.addEventListener("click", () => {
+        const parent = deleteBtn.parentElement.parentElement;
+        contNumeros.removeChild(parent);
+        nbOfNumbersAdded--;
+        howManyPhoneNumbersInput.value = nbOfNumbersAdded;
+    });
 })

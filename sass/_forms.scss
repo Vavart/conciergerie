@@ -1,8 +1,3 @@
-.cont-header {
-    @include flex-center;
-    flex-direction: column;
-}
-
 form {
     @include flex-center;
     flex-direction: column;
@@ -38,10 +33,9 @@ form {
     }
 }
 
-// Spe for phone numbers
+// Spcial for phone numbers
 .cont-numeros {
     display: flex;
-    align-items: flex-end;
     flex-direction: column;
     gap: 25px;
 }
@@ -51,6 +45,20 @@ form {
         @include btn-cta;
     }
 }
+
+// Spcial for points
+.cont-add-points {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.cont-add-points  {
+    .add-points {
+        @include btn-cta;
+    }
+}
+
 
 .cont-input {
     display: flex;
@@ -106,6 +114,20 @@ form {
             cursor: pointer;
 
             &:checked { border: 6px solid $white; }
+        }
+    }
+
+    .cont-input-btn {
+        @include flex-center;
+        gap: 15px;
+    }
+
+    .delete-btn {
+        @include btn-cta;
+        background: crimson;
+
+        &:hover {
+            background: #c91237;
         }
     }
 }

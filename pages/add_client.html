@@ -27,7 +27,7 @@
 
         <div class="cont-header">
             <h1>Ajouter un nouveau client</h1>
-            <a href="/pages" class="menu">
+            <a href="index.html" class="menu">
                 Retour à l'accueil
             </a>
         </div>
@@ -44,25 +44,25 @@
                     <div class="sec">
                         <div class="cont-input">
                             <label for="prenom">Prénom</label>
-                            <input type="text" name="prenom" id="prenom" placeholder="Jean Michelle">
+                            <input type="text" name="prenom" id="prenom" placeholder="Jean Michelle" required>
                         </div>
                         <div class="cont-input">
-                            <label for="prenom">Nom</label>
-                            <input type="text" name="nom" id="nom" placeholder="Moulin">
+                            <label for="nom">Nom</label>
+                            <input type="text" name="nom" id="nom" placeholder="Moulin" required>
                         </div>
                     </div>
 
                     <div class="sec">
                         <div class="cont-input large">
                             <label for="address">Adresse postale</label>
-                            <input type="text" name="address" id="address" placeholder="6 rue du Pastaga 72000 Le Mans" class="">
+                            <input type="text" name="address" id="address" placeholder="6 rue du Pastaga 72000 Le Mans" class="" required>
                         </div>
                     </div>
 
                     <div class="sec">
                         <div class="cont-input">
                             <label for="mail">Adresse mail</label>
-                            <input type="email" name="mail" id="mail" class="" placeholder="jeanmi_300@yahoo.fr">
+                            <input type="email" name="mail" id="mail" class="" placeholder="jeanmi_300@yahoo.fr" required>
                         </div>
                     </div>
 
@@ -82,7 +82,7 @@
                         <div class="cont-numeros">
                             <div class="cont-input">
                                 <label for="phone_number">Numéro(s) de téléphone</label>
-                                <input type="text" name="phone_number" id="phone_number" placeholder="+3364585956271">
+                                <input type="text" name="phone_number_1" id="phone_number" placeholder="+3364585956271">
                             </div>
                         </div>
                         
@@ -90,6 +90,9 @@
                             <button type="button" class="add-phone-number">
                                 Ajouter un numéro de téléphone
                             </button>
+
+                            <!-- Hidden input to know how much phone numbers there are -->
+                            <input type="hidden" name="how_many_phone_numbers" value="1">
                         </div>
                     </div>
 
@@ -120,7 +123,7 @@
 
 
             <div class="cont-btns">
-                <a href="/pages" class="cancel">
+                <a href="index.html" class="cancel">
                     Annuler
                 </a>
 

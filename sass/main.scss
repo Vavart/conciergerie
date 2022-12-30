@@ -19,12 +19,25 @@ a {
     text-align: center;
 }
 
+.cont-header {
+    @include flex-center;
+    flex-direction: column;
+
+    .caption {font-style: italic;}
+}
+
 .page {
     min-height: 625px;
     padding: 25px 150px;
     
     @include flex-center;
     flex-direction: column;
+}
+
+@media screen and (max-width: 1000px) {
+    .page {
+        padding: 25px 50px;
+    }
 }
 
 .menu {
@@ -35,3 +48,4 @@ a {
 // Pages
 @import "homepage";
 @import "forms";
+@import "search";

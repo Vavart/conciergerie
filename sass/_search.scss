@@ -1,0 +1,27 @@
+.cont-search {
+    width: 100%;
+    margin: 50px auto;
+
+    .cont-input {
+        width: 100%;
+    }
+}
+
+.cont-tab, table {
+    width: 100%;
+}
+
+tr {
+    @include flex-center;
+    justify-content: space-between;
+    margin: 12px auto;
+}
+
+tbody {
+    tr {
+        background: $light-brown;
+        border-radius: 5px;
+        padding: 12px 24px;
+        cursor: pointer;
+    }
+}
