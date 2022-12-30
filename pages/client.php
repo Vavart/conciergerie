@@ -64,8 +64,8 @@
 
         <div class="cont-header">
             <h1>Fiche client : <?php echo $client['code'] ?></h1>
-            <a href="index.html" class="menu">
-                Retour à l'accueil
+            <a href="search_client.php" class="menu">
+                Retour à la recherche
             </a>
         </div>
 

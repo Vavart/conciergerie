@@ -20,6 +20,16 @@
     <!-- JS -->
     <script src="../js/search_client.js" defer></script>
 
+    <?php include "../php/sql_connection.php" ?>
+
+    <?php
+    
+    $query = "SELECT * FROM client";
+    $result = $connect->query($query);
+    $clients = $result->fetch_all(MYSQLI_ASSOC);
+    
+    ?>
+
 </head>
 <body>
     
@@ -53,13 +63,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-id="17-SPR-0001">
-                        <td>1</td>
-                        <td>17-SPR-0001</td>
-                        <td>Jean Michelle Moulin</td>
-                        <td>jeanmi_300@yahoo.fr</td>
-                        <td>+33670097906</td>
-                    </tr>
+
+                    <?php 
+                    
+                    foreach ($clients as $client) { ?>
+                        <tr data-id="<?= $client['code'] ?>">
+                            <td><?= $client['id_client'] ?></td>
+                            <td><?= $client['code'] ?></td>
+                            <td><?= $client['name']." ".$client['surname'] ?></td>
+                            <td><?= $client['email'] ?></td>
+
+                            <!-- Get the first number of the client -->
+                            <?php 
+                                $id_client = $client['id_client'];
+                                $query = "SELECT numero FROM telephone WHERE id_client='$id_client'";
+                                $result = $connect->query($query);
+                                $numero_tel = $result->fetch_all(MYSQLI_ASSOC);
+                                $numero_tel = $numero_tel[0]['numero'];
+                            ?>
+
+                            <td><?= $numero_tel ?></td>    
+                        </tr>
+                    <?php }
+
+                    ?>
+                    
 
                 </tbody>
             </table>
