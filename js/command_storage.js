@@ -18,24 +18,20 @@ mailClient.value = client_mail;
 
 // Initializing the number of products in the command
 if (sessionStorage.getItem("nb_products") === null) {
-    sessionStorage.setItem("nb_product", 0);
+    sessionStorage.setItem("nb_products", 0);
+}
+
+if (sessionStorage.getItem("id_products_displayed") === null) {
+    sessionStorage.setItem("id_products_displayed", JSON.stringify([]))
 }
 
 const nb_products = sessionStorage.getItem("nb_products");
 const productSection = document.querySelector(".product-section");
-const id_products_displayed = []
 
 for (let i = 0; i < nb_products; i++) {
     // -- Create a full product
     // Get the product
     const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
-
-    // Check if we already added this article
-    if (id_products_displayed.includes(storedProduct[0])) {
-        continue // skip iteration
-    } else {
-        id_products_displayed.push(storedProduct[0])
-    }
 
     const divSection = document.createElement("div");
     divSection.classList.add("section");
@@ -144,6 +140,7 @@ for (let i = 0; i < nb_products; i++) {
     deleteBtn.classList.add("delete-btn");
     deleteBtn.setAttribute("type", "button");
     deleteBtn.setAttribute("data-id", storedProduct[0])   
+    deleteBtn.setAttribute("data-order", i+1)   
     deleteBtn.innerText = "X";
 
     divSec3Input2.appendChild(labelSec3Input2)
@@ -167,20 +164,51 @@ allArticlesDeleteBtn.forEach(btn => {
     btn.addEventListener("click", () => {
         const parent = btn.parentElement.parentElement.parentElement;
         
-        // Update tht number of articles before deleting
-        const productToDeleteId = btn.getAttribute("data-id");
+        // Update the number of articles before deleting
+        const productToDeleteId = String(btn.getAttribute("data-id"));
+
+        const id_products_displayed = JSON.parse(sessionStorage.getItem("id_products_displayed")) 
+
         let indexOfProduct = id_products_displayed.indexOf(productToDeleteId)
         delete id_products_displayed[indexOfProduct];
+
+        sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
 
         let currNbProducts = sessionStorage.getItem("nb_products")
         currNbProducts--;
         sessionStorage.setItem("nb_products", currNbProducts);
         
+        let articleIndex = btn.getAttribute("data-order");
+        sessionStorage.removeItem(`product_item_${articleIndex}`)
         productSection.removeChild(parent);
 
-
         // Redo the naming
-        
+        const allArticles = Array.from(document.querySelectorAll(".product-section .section"))
+        let i = 0;
+        for (let article of allArticles) {
+            const allArticleInputs = article.querySelectorAll("input");
+            
+            allArticleInputs[0].setAttribute("name", `product_id_${i+1}`)
+            allArticleInputs[1].setAttribute("name", `product_name_${i+1}`)
+            allArticleInputs[2].setAttribute("name", `product_price_${i+1}`)
+            allArticleInputs[3].setAttribute("name", `product_status_${i+1}`)
+            allArticleInputs[4].setAttribute("name", `product_stock_${i+1}`)
+            allArticleInputs[5].setAttribute("name", `product_quantity_${i+1}`)
+
+
+            sessionStorage.clear()
+            // Redo the naming of session storage
+            sessionStorage.setItem("nb_products", currNbProducts);
+
+            sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
+
+            const productArray = [allArticleInputs[0].value, allArticleInputs[1].value, allArticleInputs[2].value, allArticleInputs[3].value, allArticleInputs[4].value, allArticleInputs[5].value]
+
+            sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(productArray));
+
+            i++;
+        }
+
     })
 })
 
