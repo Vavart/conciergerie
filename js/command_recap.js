@@ -1,21 +1,67 @@
-const totalProducts = sessionStorage.getItem("nb_products");
-const totalProductsInput = document.getElementsByName("total_products")[0];
-totalProductsInput.value = totalProducts;
+const computCostBtn = document.querySelector(".compute-btn");
 
-// Compute the price
-const allPrices = []
-for (let i = 0; i < totalProducts; i++) {
-    let value = parseFloat(JSON.parse(sessionStorage.getItem(`product_item_${i+1}`))[2])
-    allPrices.push(value);
+function computeCosts() {
+  const totalPriceInput = document.getElementsByName("total_price")[0];
+  const restToPay = document.getElementsByName("rest_to_pay")[0];
+  
+  // Listen to delivery and service price
+  const deliveryPriceInput = document.getElementsByName("delivery_fee")[0];
+  const servicePriceInput = document.getElementsByName("service_fee")[0];
+
+  const totalProducts = sessionStorage.getItem("nb_products");
+
+  // Compute the price
+  let allPrices = []
+  for (let i = 0; i < totalProducts; i++) {
+      let value = parseFloat(JSON.parse(sessionStorage.getItem(`product_item_${i+1}`))[2])
+      allPrices.push(value);
+  }
+
+  const initialValue = 0;
+  let sumWithInitial = allPrices.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    initialValue
+  );
+
+  sumWithInitial = parseFloat(sumWithInitial);
+
+
+  // Get all payment amounts
+  const allPaymentAmountsInputs = document.querySelectorAll("#payment_amount");
+
+  let allPaymentAmounts = 0;
+  allPaymentAmountsInputs.forEach(input => {
+    if (input.value.length > 0) {
+      allPaymentAmounts += parseFloat(input.value);
+    }
+  })
+
+  let price = sumWithInitial;
+  if (deliveryPriceInput.value.length > 0) {
+    price +=  parseFloat(deliveryPriceInput.value);
+  } 
+
+  if (servicePriceInput.value.length > 0) {
+    price +=  parseFloat(servicePriceInput.value);
+  } 
+
+  price -= allPaymentAmounts;
+  console.log(price);
+
+  totalPriceInput.value = price;
+  restToPay.value = price;
 }
 
-const initialValue = 0;
-const sumWithInitial = allPrices.reduce(
-  (accumulator, currentValue) => accumulator + currentValue,
-  initialValue
-);
+computCostBtn.addEventListener("click", computeCosts);
 
-const totalPriceInput = document.getElementsByName("total_price")[0];
-const restToPay = document.getElementsByName("rest_to_pay")[0];
-totalPriceInput.value = sumWithInitial;
-restToPay.value = sumWithInitial;
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (e) => {
+    sessionStorage.clear();
+    computeCosts();
+
+    // à supprimer après les tests
+    // e.preventDefault();
+    // window.location.reload();
+
+})

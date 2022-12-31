@@ -94,9 +94,20 @@ form {
         padding: 12px;
         color: $white;
         font-weight: 500;
+
+        &::placeholder {
+            color: $white;
+            opacity: 0.4;
+            font-style: italic;
+            font-weight: 200;
+        }
     }
 }
 
+// Special for compute cost btn (command page)
+.compute-btn {
+    @include btn-cta;
+}
 
 .cont-input {
     display: flex;
@@ -131,7 +142,7 @@ form {
     }
 
     &.large {
-        width: 800px;
+        width: 500px;
     }
 
     &.radio {

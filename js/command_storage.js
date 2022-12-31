@@ -211,14 +211,3 @@ allArticlesDeleteBtn.forEach(btn => {
 
     })
 })
-
-const form = document.querySelector("form");
-form.addEventListener("submit", (e) => {
-    sessionStorage.clear();
-
-
-    // à supprimer après les tests
-    e.preventDefault();
-    window.location.reload();
-
-})

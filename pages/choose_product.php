@@ -36,8 +36,8 @@
     <div class="page">
 
         <div class="cont-header">
-            <h1>Rechercher un client</h1>
-            <p class="caption">Cliquez sur le client souhaitant passer commande</p>
+            <h1>Rechercher un produit</h1>
+            <p class="caption">Cliquez sur le produit à ajouter à la commande</p>
             <a href="add_command.php" class="menu">
                 Retour à la commande
             </a>

@@ -3,7 +3,6 @@ const contPayment = document.querySelector(".cont-payment");
 const howManyPaymentInput = document.getElementsByName("how_many_payments")[0];
 let nbOfPaymentAdded = howManyPaymentInput.value;
 
-
 // Listening to every delete button already present
 const allDeletePaymentBtns = Array.from(document.querySelectorAll(".cont-payment .delete-btn"));
 allDeletePaymentBtns.forEach(btn => {
@@ -48,6 +47,7 @@ btnToAddPayment.addEventListener("click", () => {
     input1.setAttribute("type", "number");
     input1.setAttribute("name", `payment_amount_${nbOfPaymentAdded}`);
     input1.setAttribute("placeholder", 45);
+    input1.setAttribute("id", "payment_amount")
 
     divInput1.appendChild(labelInput1);
     divInput1.appendChild(input1);

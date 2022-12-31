@@ -105,7 +105,41 @@
             <!-- Note -->
             <h2 class="sec-title">Note</h2>
             <div class="section cont-note">
-                <textarea name="command_note" id="command_note"></textarea>
+                <textarea name="command_note" id="command_note" placeholder="Un item est cassé"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="sec col">
+                <label for="status" class="subtitle">Statut :</label>
+
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="to_buy" checked>
+                    <label for="stock">À acheter</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="bought">
+                    <label for="available">Acheté</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="packed">
+                    <label for="packed">Emballé</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="shipped">
+                    <label for="dispatched">Expédiée</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="arrived">
+                    <label for="arrived">Arrivée</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="delivered">
+                    <label for="delivered">Livrée</label>
+                </div>
+                <div class="cont-input radio">
+                    <input type="radio" name="status" id="status" value="done">
+                    <label for="other">Terminée</label>
+                </div>
             </div>
 
 
@@ -115,33 +149,30 @@
                 <div class="sec">
                     <div class="cont-input">
                         <label for="">Frais de livraison (en €)</label>
-                        <input type="text" name="delivery_fee" id="delivery_fee" placeholder="0">
+                        <input type="number" name="delivery_fee" id="delivery_fee" placeholder="0">
                     </div>
                     <div class="cont-input">
                         <label for="">Frais de service (en €)</label>
-                        <input type="text" name="service_fee" id="service_fee" placeholder="0">
+                        <input type="number" name="service_fee" id="service_fee" placeholder="0">
                     </div>
                 </div>
 
                 <div class="sec">
-                    <div class="cont-input">
-                        <label for="">Nombre de produits commandés</label>
-                        <input type="text" name="total_products" id="total_products" class="locked" readonly>
-                    </div>
                     <div class="cont-input">
                         <label for="">Montant total (en €)</label>
-                        <input type="text" name="total_price" id="total_price" class="locked" readonly>
+                        <input type="number" name="total_price" id="total_price" class="locked" readonly>
+                    </div>
+                    <div class="cont-input">
+                        <label for="">Reste à payer (en €)</label>
+                        <input type="number" name="rest_to_pay" id="rest_to_pay" class="locked" readonly>
                     </div>
                 </div>
 
                 <div class="sec">
                     <div class="cont-input">
-                        <label for="">Statut de la commande</label>
-                        <input type="text" name="command_status" id="command_status" class="locked" readonly>
-                    </div>
-                    <div class="cont-input">
-                        <label for="">Reste à payer</label>
-                        <input type="text" name="rest_to_pay" id="rest_to_pay" class="locked" readonly>
+                        <button type="button" class="compute-btn">
+                            Calculer le coût final
+                        </button>
                     </div>
                 </div>
             </div>
