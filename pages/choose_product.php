@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rechercher un client - Conciergerie</title>
+    <title>Rechercher un produit - Conciergerie</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,15 +18,15 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <!-- JS -->
-    <script src="../js/select_client.js" defer></script>
+    <script src="../js/select_product.js" defer></script>
 
     <?php include "../php/sql_connection.php" ?>
 
     <?php
 
-    $query = "SELECT * FROM client";
+    $query = "SELECT * FROM produit";
     $result = $connect->query($query);
-    $clients = $result->fetch_all(MYSQLI_ASSOC);
+    $products = $result->fetch_all(MYSQLI_ASSOC);
     
     ?>
 
@@ -56,33 +56,29 @@
                 <thead>
                     <tr>
                         <th>N°</th>
-                        <th>Code</th>
-                        <th>Nom du client</th>
-                        <th>Email</th>
-                        <th>Téléphone principal</th>
+                        <th>Nom du produit</th>
+                        <th>Prix unitaire (en €)</th>
+                        <th>Statut</th>
+                        <th>Nombre en stock</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <?php 
                     
-                    foreach ($clients as $client) { ?>
-                        <tr data-code="<?= $client['code'] ?>" data-id="<?= $client['id_client'] ?>" data-name="<?= $client['name']." ".$client['surname'] ?>" data-mail="<?= $client['email'] ?>">
-                            <td><?= $client['id_client'] ?></td>
-                            <td><?= $client['code'] ?></td>
-                            <td><?= $client['name']." ".$client['surname'] ?></td>
-                            <td><?= $client['email'] ?></td>
-
-                            <!-- Get the first number of the client -->
-                            <?php 
-                                $id_client = $client['id_client'];
-                                $query = "SELECT numero FROM telephone WHERE id_client='$id_client'";
-                                $result = $connect->query($query);
-                                $numero_tel = $result->fetch_all(MYSQLI_ASSOC);
-                                $numero_tel = $numero_tel[0]['numero'];
-                            ?>
-
-                            <td><?= $numero_tel ?></td>    
+                    foreach ($products as $product) { ?>
+                        <tr 
+                        data-id="<?= $product['id_produit'] ?>" 
+                        data-name="<?= $product['product_name'] ?>" 
+                        data-price="<?= $product['unit_price'] ?>"
+                        data-status="<?= $product['status'] ?>"
+                        data-dispo="<?= $product['nb_dispo'] ?>"
+                        >
+                            <td><?= $product['id_produit'] ?></td>
+                            <td><?= $product['product_name'] ?></td>
+                            <td><?= $product['unit_price'] ?></td>
+                            <td><?= $product['status'] ?></td>
+                            <td><?= $product['nb_dispo'] ?></td>    
                         </tr>
                     <?php }
 

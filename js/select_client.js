@@ -1,22 +1,19 @@
-/*
-
-lors du clic sur un tr (= un client)
-sauvegarde de son id, de son code et du nom/mail
-dans le local storage
-
-*/
-
-
-
-
 // Redirection
 const allClients = Array.from(document.querySelectorAll("tbody tr"));
 
 allClients.forEach(client => {
     client.addEventListener("click", () => {
         const client_id = client.getAttribute("data-id");
-        console.log(window.location);
-        window.location.href = `client.php?id=${client_id}`
+        const client_code = client.getAttribute("data-code");
+        const client_name = client.getAttribute("data-name");
+        const client_mail = client.getAttribute("data-mail");
+
+        sessionStorage.setItem("id_client", client_id);
+        sessionStorage.setItem("code_client", client_code);
+        sessionStorage.setItem("client_name", client_name);
+        sessionStorage.setItem("client_mail", client_mail);
+
+        window.location.href = "add_command.php";
     })
 });
 

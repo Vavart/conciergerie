@@ -67,6 +67,20 @@ form {
     }
 }
 
+// Special for products (command page)
+.cont-choose-product {
+    .choose-product {
+        @include btn-cta;
+    }
+}
+
+// Special for payment (command page)
+.cont-choose-payment {
+    .choose-payment {
+        @include btn-cta;
+    }
+}
+
 .cont-input {
     display: flex;
     flex-direction: column;

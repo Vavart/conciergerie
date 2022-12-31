@@ -92,7 +92,7 @@ btnToAddPoints.addEventListener("click", () => {
         nbOfPointsAdded--;
         howManyPoints.value = nbOfPointsAdded;
         
-            // Update every name
+        // Update every name
         const allPointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=text]"));
         const allDatePointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=date]"));
 

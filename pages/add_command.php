@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un article - Conciergerie</title>
+    <title>Passer commande - Conciergerie</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,9 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
+
+    <!-- JS -->
+    <script src="../js/command_storage.js" defer></script>
 
 </head>
 <body>
@@ -40,12 +43,18 @@
                 
                 <div class="sec">
                     <div class="cont-input">
-                        <label for="code">Code</label>
-                        <input type="number" name="code" id="code" class="locked" readonly>
+                        <label for="numero">Numéro client</label>
+                        <input type="text" name="numero" id="numero" class="locked" readonly>
                     </div>
                     <div class="cont-input">
+                        <label for="code">Code client</label>
+                        <input type="text" name="code" id="code" class="locked" readonly>
+                    </div>
+                </div>
+                <div class="sec">
+                    <div class="cont-input">
                         <label for="name_surname">Prénom / Nom</label>
-                        <input type="number" name="name_surname" id="name_surname" class="locked" readonly>
+                        <input type="text" name="name_surname" id="name_surname" class="locked" readonly>
                     </div>
                     <div class="cont-input">
                         <label for="mail">Mail</label>
@@ -54,7 +63,7 @@
                 </div>
 
                 <div class="cont-choose-client">
-                    <a href="choose_client.php" type="button" class="choose-client">
+                    <a href="choose_client.php" class="choose-client">
                         Choisir un autre client
                     </a>
                 </div>
@@ -62,28 +71,18 @@
             
             <!-- Products -->
             <h2 class="sec-title">Produits</h2>
-            <div class="section">
-                <div class="sec">
-                    <div class="cont-input large">
-                        <label for="product_name">Nom du produit</label>
-                        <input type="text" name="product_name" id="product_name" placeholder="Extrait de roche qui rajeunit de 10 ans" required>
-                    </div>
-                </div>
 
-                <div class="sec">
-                    <div class="cont-input">
-                        <label for="price">Prix unitaire (en €)</label>
-                        <input type="number" name="price" id="price" placeholder="10" required>
-                    </div>
-                    <div class="cont-input">
-                        <label for="nb_dispo">Nombre d'articles en stock</label>
-                        <input type="number" name="nb_dispo" id="nb_dispo" placeholder="2" required>
-                    </div>
-                </div>
+            <div class="section product-section">
+                <!-- Products will be displayed here -->
             </div>
 
-            
-
+            <div class="sec col">
+                <div class="cont-choose-product">
+                    <a href="choose_product.php" class="choose-product">
+                        Ajouter un produit
+                    </a>
+                </div>
+            </div>
         </div>
 
 
@@ -93,7 +92,7 @@
             </a>
 
             <button type="submit">
-                Ajouter l'article
+                Passer commande
             </button>
         </div>
 
