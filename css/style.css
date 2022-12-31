@@ -279,7 +279,7 @@ form {
   background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
 }
 
-.cont-choose-payment .choose-payment {
+.cont-add-payment .add-payment {
   background: linear-gradient(97.13deg, #504661 -2.98%, #9586AD 107.22%);
   box-shadow: 0px 0px 15px rgba(51, 51, 51, 0.5);
   border-radius: 5px;
@@ -294,8 +294,21 @@ form {
   cursor: pointer;
   text-decoration: none;
 }
-.cont-choose-payment .choose-payment:hover {
+.cont-add-payment .add-payment:hover {
   background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
+}
+
+.cont-note textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: none;
+  background: #AD987D;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 12px;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .cont-input {

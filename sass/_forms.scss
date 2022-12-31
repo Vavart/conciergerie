@@ -75,11 +75,28 @@ form {
 }
 
 // Special for payment (command page)
-.cont-choose-payment {
-    .choose-payment {
+.cont-add-payment {
+    .add-payment {
         @include btn-cta;
     }
 }
+
+// Special for note (command page)
+.cont-note {
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        resize: none;
+        background: $light-brown;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        padding: 12px;
+        color: $white;
+        font-weight: 500;
+    }
+}
+
 
 .cont-input {
     display: flex;

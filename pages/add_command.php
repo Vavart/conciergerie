@@ -19,6 +19,8 @@
 
     <!-- JS -->
     <script src="../js/command_storage.js" defer></script>
+    <script src="../js/add_payment.js" defer></script>
+    <script src="../js/command_recap.js" defer></script>
 
 </head>
 <body>
@@ -83,6 +85,67 @@
                     </a>
                 </div>
             </div>
+
+
+            <!-- Payment -->
+            <h2 class="sec-title">Réglement</h2>
+            <div class="section cont-payment">
+                <!-- Payments will be there -->
+            </div>
+
+            <div class="sec col">
+                <div class="cont-add-payment">
+                    <button class="add-payment" type="button">
+                        Ajouter un paiement
+                    </button>
+                    <input type="hidden" name="how_many_payments">
+                </div>
+            </div>
+
+            <!-- Note -->
+            <h2 class="sec-title">Note</h2>
+            <div class="section cont-note">
+                <textarea name="command_note" id="command_note"></textarea>
+            </div>
+
+
+            <!-- Recap -->
+            <h2 class="sec-title">Récapitulatif</h2>
+            <div class="section recap">
+                <div class="sec">
+                    <div class="cont-input">
+                        <label for="">Frais de livraison (en €)</label>
+                        <input type="text" name="delivery_fee" id="delivery_fee" placeholder="0">
+                    </div>
+                    <div class="cont-input">
+                        <label for="">Frais de service (en €)</label>
+                        <input type="text" name="service_fee" id="service_fee" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="sec">
+                    <div class="cont-input">
+                        <label for="">Nombre de produits commandés</label>
+                        <input type="text" name="total_products" id="total_products" class="locked" readonly>
+                    </div>
+                    <div class="cont-input">
+                        <label for="">Montant total (en €)</label>
+                        <input type="text" name="total_price" id="total_price" class="locked" readonly>
+                    </div>
+                </div>
+
+                <div class="sec">
+                    <div class="cont-input">
+                        <label for="">Statut de la commande</label>
+                        <input type="text" name="command_status" id="command_status" class="locked" readonly>
+                    </div>
+                    <div class="cont-input">
+                        <label for="">Reste à payer</label>
+                        <input type="text" name="rest_to_pay" id="rest_to_pay" class="locked" readonly>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
 

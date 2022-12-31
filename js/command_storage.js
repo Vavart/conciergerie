@@ -222,6 +222,3 @@ form.addEventListener("submit", (e) => {
     window.location.reload();
 
 })
-
-
-// refaire le naming pour les produits (à chaque chargement de page du coup)
