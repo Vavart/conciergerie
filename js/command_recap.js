@@ -45,11 +45,11 @@ function computeCosts() {
     price +=  parseFloat(servicePriceInput.value);
   } 
 
-  price -= allPaymentAmounts;
+  let rest_to_pay = price - allPaymentAmounts;
   console.log(price);
 
   totalPriceInput.value = price;
-  restToPay.value = price;
+  restToPay.value = rest_to_pay;
 }
 
 computCostBtn.addEventListener("click", computeCosts);
@@ -57,8 +57,8 @@ computCostBtn.addEventListener("click", computeCosts);
 
 const form = document.querySelector("form");
 form.addEventListener("submit", (e) => {
-    sessionStorage.clear();
     computeCosts();
+    sessionStorage.clear();
 
     // à supprimer après les tests
     // e.preventDefault();

@@ -2,7 +2,6 @@
 
     include "sql_connection.php";
 
-    
     // check if there is a client
     if (!isset($_POST['numero']) || $_POST['numero'] == "") {
         header('Location: ../pages/index.html?msg=error'); // error
@@ -29,16 +28,16 @@
 
     // Create the command (with the points ref)
     // Select the id of the points lately added
-    $query = "SELECT id_points FROM points WHERE id_client='$id_client' AND exp_date='$exp_date'";
+    $query = "SELECT id_points FROM points WHERE id_client='$id_client' AND exp_date='$exp_date' AND nb_points='$points_amount'";
     $result = $connect->query($query);
     $id_points = $result->fetch_all(MYSQLI_ASSOC);
-    $id_points = $id_client[0]['id_points'];
+    $id_points = $id_points[0]['id_points'];
 
     // create a code for the command
     $code_date = date("dmy"); // 311222
     $code_code = "CMD";
 
-    $query_ref = "SELECT COUNT(*) FROM command WHERE MONTH(cmd_date)=date('m')";
+    $query_ref = "SELECT COUNT(*) FROM commande WHERE MONTH(cmd_date)=date('m')";
     $result_query_ref = $connect->query($query_ref);
     $rows = $result_query_ref->fetch_all(MYSQLI_ASSOC);
     $code_value = $rows[0]['COUNT(*)'] + 1;    
@@ -50,15 +49,14 @@
     $service_price = $_POST["service_fee"];
     $note = $_POST['command_note'];
 
-    $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$id_points','$code', date(), '$status','$delivery_price','$service_price','$note')";
+    $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$id_points','$code', curdate(), '$status','$delivery_price','$service_price','$note')";
     $result = $connect->query($query);
-
 
     // Get the id of the command lately recorded
-    $query = "SELECT id_commande FROM commande WHERE id_points='$id_points' AND cmd_date=date()";
+    $query = "SELECT id_commande FROM commande WHERE id_points='$id_points' AND cmd_date=curdate()";
     $result = $connect->query($query);
     $id_commande = $result->fetch_all(MYSQLI_ASSOC);
-    $id_commande = $rows[0]['id_commande'];
+    $id_commande = $id_commande[0]['id_commande'];
 
     // Create all payment methods and amount
     $how_many_payments = $_POST['how_many_payments'];
@@ -74,7 +72,7 @@
         $rows = $result->fetch_all(MYSQLI_ASSOC);
 
         // if it already exists we select the id_paiement
-        if (empty($rows)) {
+        if (!empty($rows)) {
             $id_paiement = $rows[0]['id_mode_paiement'];
         }
 
@@ -88,24 +86,26 @@
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             $id_mode_paiement = $rows[0]['id_mode_paiement'];
         }
+
         // Amounts
-        $key = 'payment_amount'.($i+1);
+        $key = 'payment_amount_'.($i+1);
         $payment_amount = $_POST[$key];
 
-        $query = "INSERT INTO paiement (`id_paiement`, `id_mode_paiement`, `montant`, `payment_date`) VALUES (0,'$id_mode_paiement','$payment_amount',date())";
+        $query = "INSERT INTO paiement (`id_paiement`, `id_mode_paiement`, `montant`, `payment_date`) VALUES (0,'$id_mode_paiement','$payment_amount',curdate())";
         $result = $connect->query($query);
 
         // get the id of the recent payment
-        $query = "SELECT id_paiement FROM paiement WHERE id_mode_paiement='$id_mode_paiement' AND montant='$payment_amount' AND payment_date=date()";
+        $query = "SELECT id_paiement FROM paiement WHERE id_mode_paiement='$id_mode_paiement' AND montant='$payment_amount' AND payment_date=curdate()";
         $result = $connect->query($query);
         $rows = $result->fetch_all(MYSQLI_ASSOC);
         $id_paiement = $rows[0]['id_paiement'];
 
         // link them with the command (payment - command)
-        $query = "INSERT INTO liste_paiement_commande (`id_commande`, `id_paiement`) VALUES ('$id_commande','$id_paiement')";
+        $query = "INSERT INTO liste_paiement_commande (`id_liste_paiement_commande`, `id_paiement`, `id_commande`) VALUES (0,'$id_paiement','$id_commande')";
         $result = $connect->query($query);
     }
 
      // link the client to the command too (command - client)
-     $query = "INSERT INTO liste_client_comande (`id_commande`, `id_client`) VALUES ('$id_commande','$id_client')";
+     $query = "INSERT INTO liste_client_comande (`id_liste_client_commande`, `id_client`, `id_commande`) VALUES (0,'$id_client','$id_commande')";
+     $result = $connect->query($query);
 ?>
