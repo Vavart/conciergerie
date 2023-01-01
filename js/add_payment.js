@@ -48,6 +48,7 @@ btnToAddPayment.addEventListener("click", () => {
     input1.setAttribute("name", `payment_amount_${nbOfPaymentAdded}`);
     input1.setAttribute("placeholder", 45);
     input1.setAttribute("id", "payment_amount")
+    input1.required = true;
 
     divInput1.appendChild(labelInput1);
     divInput1.appendChild(input1);
@@ -60,6 +61,7 @@ btnToAddPayment.addEventListener("click", () => {
     input2.setAttribute("type", "text");
     input2.setAttribute("name", `payment_method_${nbOfPaymentAdded}`);
     input2.setAttribute("placeholder", "Carte");
+    input2.required = true;
 
     divInput2.appendChild(labelInput2);
     divInput2.appendChild(input2);

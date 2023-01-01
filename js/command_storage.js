@@ -15,6 +15,8 @@ nameClient.value = client_name;
 mailClient.value = client_mail;
 
 // Products
+const howManyProductsInput = document.getElementsByName("how_many_products")[0];
+let nbOfProductsAdded = howManyProductsInput.value;
 
 // Initializing the number of products in the command
 if (sessionStorage.getItem("nb_products") === null) {
@@ -30,49 +32,65 @@ const productSection = document.querySelector(".product-section");
 
 for (let i = 0; i < nb_products; i++) {
     // -- Create a full product
+
+    // Add a product to the total of product
+    nbOfProductsAdded++;
+    howManyProductsInput.value = nbOfProductsAdded;
+
     // Get the product
     const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
 
     const divSection = document.createElement("div");
     divSection.classList.add("section");
 
-    // Sec 1 (numero and name)
+    // Sec 1 (name and status)
     const divSec1 = document.createElement("div");
     divSec1.classList.add("sec");
 
+    // hidden product id
+    const inputSec0 = document.createElement("input");
+    inputSec0.setAttribute("type", "hidden");
+    inputSec0.setAttribute("name", `product_id_${i+1}`);
+    inputSec0.classList.add("locked");
+    inputSec0.readOnly = true;
+    inputSec0.value = storedProduct[0];
+
+    // product name
     const divSec1Input1 = document.createElement("div");
     divSec1Input1.classList.add("cont-input");
+    divSec1Input1.classList.add("large");
     const labelSec1Input1 = document.createElement("label");
-    labelSec1Input1.innerText = "Numéro produit";
+    labelSec1Input1.innerText = "Nom du produit";
     const inputSec11 = document.createElement("input");
     inputSec11.setAttribute("type", "text");
-    inputSec11.setAttribute("name", `product_id_${i+1}`);
+    inputSec11.setAttribute("name", `product_name_${i+1}`);
     inputSec11.classList.add("locked");
     inputSec11.readOnly = true;
-    inputSec11.value = storedProduct[0]
+    inputSec11.value = storedProduct[1]
 
     divSec1Input1.appendChild(labelSec1Input1)
     divSec1Input1.appendChild(inputSec11)
 
+    // status
     const divSec1Input2 = document.createElement("div");
     divSec1Input2.classList.add("cont-input");
-    divSec1Input2.classList.add("large");
     const labelSec1Input2 = document.createElement("label");
-    labelSec1Input2.innerText = "Nom du produit";
+    labelSec1Input2.innerText = "Statut";
     const inputSec12 = document.createElement("input");
     inputSec12.setAttribute("type", "text");
-    inputSec12.setAttribute("name", `product_name_${i+1}`);
+    inputSec12.setAttribute("name", `product_status_${i+1}`);
     inputSec12.classList.add("locked");
     inputSec12.readOnly = true;
-    inputSec12.value = storedProduct[1]
+    inputSec12.value = storedProduct[3]
 
     divSec1Input2.appendChild(labelSec1Input2)
     divSec1Input2.appendChild(inputSec12)
 
+    divSec1.appendChild(inputSec0)
     divSec1.appendChild(divSec1Input1)
     divSec1.appendChild(divSec1Input2)
 
-    // Sec 2 (price and status)
+    // Sec 2 (unit price and sold price)
     const divSec2 = document.createElement("div");
     divSec2.classList.add("sec");
 
@@ -93,13 +111,12 @@ for (let i = 0; i < nb_products; i++) {
     const divSec2Input2 = document.createElement("div");
     divSec2Input2.classList.add("cont-input");
     const labelSec2Input2 = document.createElement("label");
-    labelSec2Input2.innerText = "Statut";
+    labelSec2Input2.innerText = "Prix vendu (en €)";
     const inputSec22 = document.createElement("input");
-    inputSec22.setAttribute("type", "text");
-    inputSec22.setAttribute("name", `product_status_${i+1}`);
-    inputSec22.classList.add("locked");
-    inputSec22.readOnly = true;
-    inputSec22.value = storedProduct[3]
+    inputSec22.setAttribute("type", "number");
+    inputSec22.setAttribute("name", `product_sold_price_${i+1}`);
+    inputSec22.setAttribute("placeholder", 20);
+    inputSec22.required = true;
 
     divSec2Input2.appendChild(labelSec2Input2)
     divSec2Input2.appendChild(inputSec22)
@@ -133,6 +150,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec32.setAttribute("type", "number");
     inputSec32.setAttribute("name", `product_quantity_${i+1}`);
     inputSec32.setAttribute("placeholder", 2);
+    inputSec32.required = true;
 
     const divSec3InputBtn = document.createElement("div");
     divSec3InputBtn.classList.add("cont-input");
@@ -162,6 +180,11 @@ for (let i = 0; i < nb_products; i++) {
 const allArticlesDeleteBtn = Array.from(document.querySelectorAll(".product-section .delete-btn"));
 allArticlesDeleteBtn.forEach(btn => {
     btn.addEventListener("click", () => {
+
+        // Substrack a product from the total of product
+        nbOfProductsAdded--;
+        howManyProductsInput.value = nbOfProductsAdded;
+
         const parent = btn.parentElement.parentElement.parentElement;
         
         // Update the number of articles before deleting
@@ -190,10 +213,11 @@ allArticlesDeleteBtn.forEach(btn => {
             
             allArticleInputs[0].setAttribute("name", `product_id_${i+1}`)
             allArticleInputs[1].setAttribute("name", `product_name_${i+1}`)
-            allArticleInputs[2].setAttribute("name", `product_price_${i+1}`)
-            allArticleInputs[3].setAttribute("name", `product_status_${i+1}`)
-            allArticleInputs[4].setAttribute("name", `product_stock_${i+1}`)
-            allArticleInputs[5].setAttribute("name", `product_quantity_${i+1}`)
+            allArticleInputs[2].setAttribute("name", `product_status_${i+1}`)
+            allArticleInputs[3].setAttribute("name", `product_price_${i+1}`)
+            allArticleInputs[4].setAttribute("name", `product_sold_price_${i+1}`)
+            allArticleInputs[5].setAttribute("name", `product_stock_${i+1}`)
+            allArticleInputs[6].setAttribute("name", `product_quantity_${i+1}`)
 
 
             sessionStorage.clear()

@@ -22,6 +22,19 @@
     <script src="../js/add_payment.js" defer></script>
     <script src="../js/command_recap.js" defer></script>
 
+    <!-- PHP -->
+    <?php
+    
+    // Get the command
+
+    // The payments amounts and methods linked to the command
+
+    // The articles linked to the command
+
+    // The client who ordered
+    
+    ?>
+
 </head>
 <body>
 
@@ -83,7 +96,6 @@
                     <a href="choose_product.php" class="choose-product">
                         Ajouter un produit
                     </a>
-                    <input type="hidden" name="how_many_products">
                 </div>
             </div>
 
