@@ -24,14 +24,33 @@
 
     <!-- PHP -->
     <?php
+
+    include "../php/sql_connection.php";
     
+    // Get the id from the url
+    $id_commande = $_REQUEST['id'];
+
     // Get the command
+    $query = "SELECT * FROM commande WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $command = $result->fetch_all(MYSQLI_ASSOC);
+    $command = $command[0];
 
     // The payments amounts and methods linked to the command
-
+    $query = "SELECT id_paiement FROM liste_paiement_commande WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $id_paiements = $result->fetch_all(MYSQLI_ASSOC);
+    
     // The articles linked to the command
+    $query = "SELECT id_produit FROM historique WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $ids_article = $result->fetch_all(MYSQLI_ASSOC);
 
     // The client who ordered
+    $query = "SELECT id_client FROM liste_client_commande WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $id_client = $result->fetch_all(MYSQLI_ASSOC);
+    $id_client = $id_client[0]['id_client'];
     
     ?>
 
@@ -41,46 +60,46 @@
 <div class="page">
     
     <div class="cont-header">
-        <h1>Passer une nouvelle commande</h1>
-        <a href="index.html" class="menu">
-            Retour à l'accueil
+        <h1>Commande : <?= $command['numero'] ?></h1>
+        <a href="search_commands.php" class="menu">
+            Retour à la recherche
         </a>
     </div>
 
-    <form action="../php/add_command_handler.php" method="post">
-
+    <form action="" method="post">
         <div class="main-form">
 
-
             <!-- Client -->
+            <?php
+
+                $query = "SELECT code, name, surname, email FROM client WHERE id_client='$id_client'";
+                $result = $connect->query($query);
+                $client = $result->fetch_all(MYSQLI_ASSOC);
+                $client = $client[0];
+            
+            ?>
             <h2 class="sec-title">Informations client</h2>
             <div class="section">
                 
                 <div class="sec">
                     <div class="cont-input">
                         <label for="numero">Numéro client</label>
-                        <input type="text" name="numero" id="numero" class="locked" readonly>
+                        <input type="text" name="numero" id="numero" class="locked" readonly value="<?= $id_client ?>">
                     </div>
                     <div class="cont-input">
                         <label for="code">Code client</label>
-                        <input type="text" name="code" id="code" class="locked" readonly>
+                        <input type="text" name="code" id="code" class="locked" readonly value="<?= $client['code'] ?>">
                     </div>
                 </div>
                 <div class="sec">
                     <div class="cont-input">
                         <label for="name_surname">Prénom / Nom</label>
-                        <input type="text" name="name_surname" id="name_surname" class="locked" readonly>
+                        <input type="text" name="name_surname" id="name_surname" class="locked" readonly value="<?= $client['name'].' / '.$client['surname'] ?>">
                     </div>
                     <div class="cont-input">
                         <label for="mail">Mail</label>
-                        <input type="email" name="mail" id="mail" class="locked" readonly>
+                        <input type="email" name="mail" id="mail" class="locked" readonly value="<?= $client['email'] ?>">
                     </div>
-                </div>
-
-                <div class="cont-choose-client">
-                    <a href="choose_client.php" class="choose-client">
-                        Choisir un autre client
-                    </a>
                 </div>
             </div>
             
@@ -89,6 +108,66 @@
 
             <div class="section product-section">
                 <!-- Products will be displayed here -->
+                <?php
+                
+                $i = 0;
+                foreach($ids_article as $id_article) {
+                    $id_article = $id_article['id_produit'];
+                    $i++;
+                    $query  = "SELECT * FROM produit WHERE id_produit='$id_article'";
+                    $result = $connect->query($query);
+                    $product = $result->fetch_all(MYSQLI_ASSOC);
+                    $product = $product[0];
+
+                ?>
+
+                    <div class="section">
+                        <div class="sec">
+                            <input type="hidden" name="product_id_<?= $i ?>">
+                            <div class="cont-input large">
+                                <label for="">Nom du produit</label>
+                                <input type="text" name="product_name_<?= $i ?>" class="locked" readonly value="<?= $product['product_name'] ?>">
+                            </div>
+                            <div class="cont-input">
+                                <label for="">Status</label>
+                                <input type="text" name="product_status_<?= $i ?>" class="locked" readonly value="<?= $product['status'] ?>">
+                            </div>
+                        </div>
+
+                        <div class="sec">
+                            <div class="cont-input">
+                                <label for="">Prix unitaire (en €)</label>
+                                <input type="number" name="product_price_<?= $i ?>" class="locked" readonly value="<?= $product['unit_price'] ?>">
+                            </div>
+                            <div class="cont-input">
+                                <label for="">Prix vendu (en €)</label>
+                                <input type="number" name="product_sold_price_<?= $i ?>" placeholder="20">
+                            </div>
+                        </div>
+
+                        <div class="sec">
+                            <div class="cont-input">
+                                <label for="">Nombre en stock</label>
+                                <input type="number" name="product_stock_<?= $i ?>" class="locked" readonly value="<?= $product['nb_dispo'] ?>">
+                            </div>
+                            <div class="cont-input">
+                                <label for="">Quantité</label>
+                                <input type="number" name="product_quantity_<?= $i ?>" placeholder="2">
+                            </div>
+                            <div class="cont-input">
+                                <button class="delete-btn" type="button" data-id="<?= $i ?>" data-order="<?= $i ?>">
+                                    X
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                <?php }
+
+                ?>
             </div>
 
             <div class="sec col">
@@ -104,6 +183,26 @@
             <h2 class="sec-title">Réglement</h2>
             <div class="section cont-payment">
                 <!-- Payments will be there -->
+
+                <?php
+                
+                $i = 0;
+                foreach($id_paiements as $id_paiement) {
+                    $id_paiement = $id_paiement['id_paiement'];
+                    $i++;
+
+                    // stopped here
+
+                    $query = "SELECT";
+
+                ?>    
+                
+                    
+
+
+                <?php }
+
+                ?>
             </div>
 
             <div class="sec col">

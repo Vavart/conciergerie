@@ -46,7 +46,7 @@
         <div class="cont-search">
             <div class="cont-input">
                 <label for="search">Recherche</label>
-                <input type="text" name="search" id="search" placeholder="Jean Moulin">
+                <input type="text" name="search" id="search" placeholder="010123-CMD-C002">
             </div>
         </div>
 

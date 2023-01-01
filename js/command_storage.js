@@ -9,10 +9,17 @@ const client_code = sessionStorage.getItem("code_client");
 const client_name = sessionStorage.getItem("client_name");
 const client_mail = sessionStorage.getItem("client_mail");
 
-numeroClient.value = client_id;
-codeClient.value = client_code;
-nameClient.value = client_name;
-mailClient.value = client_mail;
+// if we are on the add command page we replace the values of the client inputs (not in command page)
+if (window.location.pathname.includes("add_command.php")) {
+    numeroClient.value = client_id;
+    codeClient.value = client_code;
+    nameClient.value = client_name;
+    mailClient.value = client_mail;
+}
+
+
+// if we are on the command page we need to add the products to the session_storage
+
 
 // Products
 const howManyProductsInput = document.getElementsByName("how_many_products")[0];

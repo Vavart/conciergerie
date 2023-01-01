@@ -20,6 +20,7 @@
     <!-- PHP -->
     <?php include "../php/sql_connection.php"; 
     
+    // Get the id from the url
     $code = $_REQUEST['id'];
 
     // The client
