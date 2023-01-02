@@ -43,10 +43,15 @@
             </a>
         </div>
 
-        <div class="cont-search">
+        <div class="cont-search tableur">
             <div class="cont-input">
                 <label for="search">Recherche</label>
                 <input type="text" name="search" id="search" placeholder="010123-CMD-C002">
+            </div>
+            <div class="cont-input">
+                <button class="export-csv">
+                    Exporter les commandes au format tableur
+                </button>
             </div>
         </div>
 
@@ -57,9 +62,9 @@
                     <tr>
                         <th>N°</th>
                         <th>Date</th>
-                        <th>Nom du client</th>
+                        <th>Statut</th>
                         <th>Reste à payer</th>
-                        <th>Note</th>
+                        <th>Nom du client</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,6 +75,7 @@
                         <tr data-id="<?= $commande['id_commande'] ?>">
                             <td><?= $commande['numero'] ?></td>
                             <td><?= $commande['cmd_date'] ?></td>
+                            <td><?= $commande['status'] ?></td>
 
                             <!-- Get the name of the client -->
                             <?php
@@ -89,14 +95,13 @@
                             $client_surname = $result[0]['surname'];
 
                             ?>
-                            <td><?= $client_name." ".$client_surname ?></td>
-
+                            
                             <!-- Get the amount left for the command -->
                             <!-- TO DO -->
-
-
                             <td><?= $commande['status'] ?></td>
-                            <td><?= htmlspecialchars_decode($commande['note']) ?></td>    
+                             
+                            <td><?= $client_name." ".$client_surname ?></td>
+
                         </tr>
                     <?php }
 

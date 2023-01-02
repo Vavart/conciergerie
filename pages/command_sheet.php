@@ -119,11 +119,16 @@
                     $product = $result->fetch_all(MYSQLI_ASSOC);
                     $product = $product[0];
 
+                    $query = "SELECT quantity, sold_price FROM historique WHERE id_produit='$id_article' AND id_commande='$id_commande'";
+                    $result = $connect->query($query);
+                    $data_product = $result->fetch_all(MYSQLI_ASSOC);
+                    $data_product = $data_product[0];
+
                 ?>
 
                     <div class="section">
                         <div class="sec">
-                            <input type="hidden" name="product_id_<?= $i ?>">
+                            <input type="hidden" name="product_id_<?= $i ?>" value="<?= $id_article ?>">
                             <div class="cont-input large">
                                 <label for="">Nom du produit</label>
                                 <input type="text" name="product_name_<?= $i ?>" class="locked" readonly value="<?= $product['product_name'] ?>">
@@ -141,7 +146,7 @@
                             </div>
                             <div class="cont-input">
                                 <label for="">Prix vendu (en €)</label>
-                                <input type="number" name="product_sold_price_<?= $i ?>" placeholder="20">
+                                <input type="number" name="product_sold_price_<?= $i ?>" value="<?= $data_product['sold_price'] ?>">
                             </div>
                         </div>
 
@@ -152,7 +157,7 @@
                             </div>
                             <div class="cont-input">
                                 <label for="">Quantité</label>
-                                <input type="number" name="product_quantity_<?= $i ?>" placeholder="2">
+                                <input type="number" name="product_quantity_<?= $i ?>" value="<?= $data_product['quantity'] ?>">
                             </div>
                             <div class="cont-input">
                                 <button class="delete-btn" type="button" data-id="<?= $i ?>" data-order="<?= $i ?>">
@@ -172,9 +177,10 @@
 
             <div class="sec col">
                 <div class="cont-choose-product">
-                    <a href="choose_product.php" class="choose-product">
+                    <a href="choose_product.php?for=sheet&id=<?= $id_commande ?>" class="choose-product">
                         Ajouter un produit
                     </a>
+                    <input type="hidden" name="how_many_products" value="<?= count($ids_article) ?>">
                 </div>
             </div>
 
@@ -191,14 +197,33 @@
                     $id_paiement = $id_paiement['id_paiement'];
                     $i++;
 
-                    // stopped here
+                    $query = "SELECT id_mode_paiement, montant, payment_date FROM paiement WHERE id_paiement ='$id_paiement'";
+                    $result = $connect->query($query);
+                    $rows = $result->fetch_all(MYSQLI_ASSOC);
+                    $data_payment = $rows[0];
 
-                    $query = "SELECT";
+                    $id_mode_paiement = $data_payment['id_mode_paiement'];
+                    $query = "SELECT mode FROM mode_paiement WHERE id_mode_paiement='$id_mode_paiement'";
+                    $result = $connect->query($query);
+                    $mode_paiement = $result->fetch_all(MYSQLI_ASSOC);
+                    $mode_paiement = $mode_paiement[0]['mode'];
 
                 ?>    
                 
-                    
-
+                    <div class="sec">
+                        <div class="cont-input">
+                            <label for="">Dépôt (en €)</label>
+                            <input type="number" name="payment_amount_<?= $i ?>" class="locked" readonly value="<?= $data_payment['montant'] ?>">
+                        </div>
+                        <div class="cont-input">
+                            <label for="">Mode de paiement</label>
+                            <input type="text" name="payment_method_<?= $i ?>" class="locked" readonly value="<?= $mode_paiement ?>">
+                        </div>
+                        <div class="cont-input">
+                            <label for="">Date du dépôt</label>
+                            <input type="date" name="payment_date_<?= $i ?>" class="locked" readonly value="<?= $data_payment['payment_date'] ?>">
+                        </div>
+                    </div>
 
                 <?php }
 
@@ -210,50 +235,100 @@
                     <button class="add-payment" type="button">
                         Ajouter un paiement
                     </button>
-                    <input type="hidden" name="how_many_payments">
+                    <input type="hidden" name="how_many_payments" value="<?= count($id_paiements) ?>">
                 </div>
             </div>
 
             <!-- Note -->
             <h2 class="sec-title">Note</h2>
             <div class="section cont-note">
-                <textarea name="command_note" id="command_note" placeholder="Un item est cassé"></textarea>
+                <textarea name="command_note" id="command_note"><?= $command['note'] ?></textarea>
             </div>
 
             <!-- Status -->
+            <h2 class="sec-title">Statut</h2>
             <div class="sec col">
-                <label for="status" class="subtitle">Statut :</label>
 
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="to_buy" checked>
-                    <label for="stock">À acheter</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="bought">
-                    <label for="available">Acheté</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="packed">
-                    <label for="packed">Emballé</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="shipped">
-                    <label for="dispatched">Expédiée</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="arrived">
-                    <label for="arrived">Arrivée</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="delivered">
-                    <label for="delivered">Livrée</label>
-                </div>
-                <div class="cont-input radio">
-                    <input type="radio" name="status" id="status" value="done">
-                    <label for="other">Terminée</label>
-                </div>
+                <?php 
+                    if ($command['status'] == "to_buy") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="to_buy" checked>
+                        <label for="stock">À acheter</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="to_buy">
+                        <label for="stock">À acheter</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "bought") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="bought" checked>
+                        <label for="available">Acheté</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="bought">
+                        <label for="available">Acheté</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "packed") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="packed" checked>
+                        <label for="packed">Emballé</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="packed">
+                        <label for="packed">Emballé</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "shipped") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="shipped" checked>
+                        <label for="dispatched">Expédiée</label>
+                     </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="shipped">
+                        <label for="dispatched">Expédiée</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "arrived") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="arrived" checked>
+                        <label for="arrived">Arrivée</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="arrived">
+                        <label for="arrived">Arrivée</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "delivered") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="delivered" checked>
+                        <label for="delivered">Livrée</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="delivered">
+                        <label for="delivered">Livrée</label>
+                    </div>
+                    <?php }
+                    if ($command['status'] == "done") { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="done" checked>
+                        <label for="other">Terminée</label>
+                    </div>
+                    <?php } else { ?>
+                    <div class="cont-input radio">
+                        <input type="radio" name="status" id="status" value="done">
+                        <label for="other">Terminée</label>
+                    </div>
+                    <?php }
+                ?>
             </div>
-
 
             <!-- Recap -->
             <h2 class="sec-title">Récapitulatif</h2>
@@ -261,11 +336,11 @@
                 <div class="sec">
                     <div class="cont-input">
                         <label for="">Frais de livraison (en €)</label>
-                        <input type="number" name="delivery_fee" id="delivery_fee" placeholder="0">
+                        <input type="number" name="delivery_fee" id="delivery_fee" value="<?= $command['delivery_price'] ?>">
                     </div>
                     <div class="cont-input">
                         <label for="">Frais de service (en €)</label>
-                        <input type="number" name="service_fee" id="service_fee" placeholder="0">
+                        <input type="number" name="service_fee" id="service_fee" value="<?= $command['service_price'] ?>">
                     </div>
                 </div>
 

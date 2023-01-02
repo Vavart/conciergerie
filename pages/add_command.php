@@ -80,7 +80,7 @@
 
             <div class="sec col">
                 <div class="cont-choose-product">
-                    <a href="choose_product.php" class="choose-product">
+                    <a href="choose_product.php?for=add" class="choose-product">
                         Ajouter un produit
                     </a>
                     <input type="hidden" name="how_many_products">
@@ -110,8 +110,8 @@
             </div>
 
             <!-- Status -->
+            <h2 class="sec-title">Statut</h2>
             <div class="sec col">
-                <label for="status" class="subtitle">Statut :</label>
 
                 <div class="cont-input radio">
                     <input type="radio" name="status" id="status" value="to_buy" checked>

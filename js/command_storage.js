@@ -18,34 +18,70 @@ if (window.location.pathname.includes("add_command.php")) {
 }
 
 
-// if we are on the command page we need to add the products to the session_storage
-
+// if we are on the command sheet page we need to add the products to the session_storage
 
 // Products
 const howManyProductsInput = document.getElementsByName("how_many_products")[0];
 let nbOfProductsAdded = howManyProductsInput.value;
 
 // Initializing the number of products in the command
-if (sessionStorage.getItem("nb_products") === null) {
+if (sessionStorage.getItem("nb_products") === null && nbOfProductsAdded == 0) {
     sessionStorage.setItem("nb_products", 0);
-}
-
-if (sessionStorage.getItem("id_products_displayed") === null) {
-    sessionStorage.setItem("id_products_displayed", JSON.stringify([]))
+} else if (sessionStorage.getItem("nb_products") === null && nbOfProductsAdded > 0) {
+    sessionStorage.setItem("nb_products", nbOfProductsAdded);
 }
 
 const nb_products = sessionStorage.getItem("nb_products");
 const productSection = document.querySelector(".product-section");
 
+const id_products_displayed = [];
+const id_products_already_displayed = [];
+
+if (sessionStorage.getItem("id_products_displayed") === null && nbOfProductsAdded == 0) {
+    sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
+
+} else if (sessionStorage.getItem("id_products_displayed") === null && nbOfProductsAdded > 0) {
+
+    // Add the existing products (command sheet page case)
+    const allExistingArticles = Array.from(productSection.children);
+    let i = 0;
+    allExistingArticles.forEach(article => {
+
+    // Get all the necessary information 
+    const articleId = document.getElementsByName(`product_id_${i+1}`)[0].value;
+    const articleName = document.getElementsByName(`product_name_${i+1}`)[0].value;
+    const articleStatus = document.getElementsByName(`product_status_${i+1}`)[0].value;
+    const articlePrice = document.getElementsByName(`product_price_${i+1}`)[0].value;
+    const articleStock = document.getElementsByName(`product_stock_${i+1}`)[0].value;
+
+    const productArray = [articleId, articleName, articlePrice, articleStatus, articleStock];
+    sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(productArray));
+    id_products_displayed.push(articleId);
+    id_products_already_displayed.push(articleId);
+
+    })
+    sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed));
+    sessionStorage.setItem("id_products_already_displayed", JSON.stringify(id_products_already_displayed));
+
+}
+
 for (let i = 0; i < nb_products; i++) {
     // -- Create a full product
+
+    // Get the product
+    const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
+
+    // if the article is already displayed
+    if (sessionStorage.getItem("id_products_already_displayed") !== null) {
+        if (JSON.parse(sessionStorage.getItem("id_products_already_displayed")).includes(storedProduct[0])) {
+            continue;
+        }
+    }
 
     // Add a product to the total of product
     nbOfProductsAdded++;
     howManyProductsInput.value = nbOfProductsAdded;
 
-    // Get the product
-    const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
 
     const divSection = document.createElement("div");
     divSection.classList.add("section");
@@ -241,4 +277,17 @@ allArticlesDeleteBtn.forEach(btn => {
         }
 
     })
+})
+
+// Clear storage when we leave the page (= click on 'cancel' or click on 'back to search')
+
+const cancelBtn = document.querySelector(".cancel");
+const menuBtn = document.querySelector(".menu");
+
+cancelBtn.addEventListener("click", () => {
+    sessionStorage.clear();
+})
+
+menuBtn.addEventListener("click", () => {
+    sessionStorage.clear();
 })

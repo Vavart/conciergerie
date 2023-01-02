@@ -32,8 +32,15 @@ allArticles.forEach(client => {
              sessionStorage.setItem(`product_item_${currNbProducts}`, JSON.stringify(productArray));
              
             } 
-            
-        window.location.href = "add_command.php";
+        
+        // determine where we relocate from the url parameter
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const params = Object.fromEntries(urlSearchParams.entries());
+        if (params.for === "add") {
+            window.location.href = "add_command.php";
+        } else if (params.for === "sheet") {
+            window.location.href = `command_sheet.php?id=${params.id}`;
+        }
     })
 });
 

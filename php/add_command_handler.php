@@ -125,6 +125,6 @@
      $query = "INSERT INTO liste_client_commande (`id_client`, `id_commande`) VALUES ('$id_client','$id_commande')";
      $result = $connect->query($query);
 
-     header('Location: ../pages/commande.php?id='.$id_commande);
+     header('Location: ../pages/command_sheet.php?id='.$id_commande);
      exit();
 ?>

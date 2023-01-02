@@ -109,6 +109,17 @@ form {
     @include btn-cta;
 }
 
+// Special for search (search command page)
+.cont-search.tableur {
+    @include flex-center;
+    gap: 50px;
+    align-items: flex-end;
+    
+    .export-csv {
+        @include btn-cta;
+    }
+}
+
 .cont-input {
     display: flex;
     flex-direction: column;

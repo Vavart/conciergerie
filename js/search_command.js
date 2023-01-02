@@ -5,7 +5,7 @@ allCommands.forEach(command => {
     command.addEventListener("click", () => {
         const command_id = command.getAttribute("data-id");
         // console.log(window.location);
-        window.location.href = `commande.php?id=${command_id}`
+        window.location.href = `command_sheet.php?id=${command_id}`
     })
 });
 
