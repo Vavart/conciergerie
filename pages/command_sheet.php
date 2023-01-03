@@ -213,7 +213,7 @@
                     <div class="sec">
                         <div class="cont-input">
                             <label for="">Dépôt (en €)</label>
-                            <input type="number" name="payment_amount_<?= $i ?>" class="locked" readonly value="<?= $data_payment['montant'] ?>">
+                            <input type="number" name="payment_amount_<?= $i ?>" class="locked" readonly value="<?= $data_payment['montant'] ?>" id="payment_amount">
                         </div>
                         <div class="cont-input">
                             <label for="">Mode de paiement</label>

@@ -1,15 +1,23 @@
-// Client
+// Client inputs
 const numeroClient = document.getElementsByName("numero")[0];
 const codeClient = document.getElementsByName("code")[0];
 const nameClient = document.getElementsByName("name_surname")[0];
 const mailClient = document.getElementsByName("mail")[0];
 
+// Client storage value
 const client_id = sessionStorage.getItem("id_client");
 const client_code = sessionStorage.getItem("code_client");
 const client_name = sessionStorage.getItem("client_name");
 const client_mail = sessionStorage.getItem("client_mail");
 
-// if we are on the add command page we replace the values of the client inputs (not in command page)
+// Get the product section
+const productSection = document.querySelector(".product-section");
+
+// ==============================================================
+// ==================== INITIALIZATION BEGIN ====================
+// ==============================================================
+
+// If we are on the "add command page" we replace the values of the client inputs (not in "command page") because the client is already known
 if (window.location.pathname.includes("add_command.php")) {
     numeroClient.value = client_id;
     codeClient.value = client_code;
@@ -17,30 +25,30 @@ if (window.location.pathname.includes("add_command.php")) {
     mailClient.value = client_mail;
 }
 
+// If we are on the "command sheet" page we need to add the products to the session_storage first
 
-// if we are on the command sheet page we need to add the products to the session_storage
-
-// Products
+// -- Products initialization
+// Check if there is any existing articles
 const howManyProductsInput = document.getElementsByName("how_many_products")[0];
-let nbOfProductsAdded = howManyProductsInput.value;
+let howManyProductsInputValue = howManyProductsInput.value;
 
-// Initializing the number of products in the command
-if (sessionStorage.getItem("nb_products") === null && nbOfProductsAdded == 0) {
+// On load, initialize the number of products in the command
+if (sessionStorage.getItem("nb_products") === null && howManyProductsInputValue == 0) {
     sessionStorage.setItem("nb_products", 0);
-} else if (sessionStorage.getItem("nb_products") === null && nbOfProductsAdded > 0) {
-    sessionStorage.setItem("nb_products", nbOfProductsAdded);
+} else if (sessionStorage.getItem("nb_products") === null && howManyProductsInputValue > 0) {
+    sessionStorage.setItem("nb_products", howManyProductsInputValue);
 }
-
+// -- //
 const nb_products = sessionStorage.getItem("nb_products");
-const productSection = document.querySelector(".product-section");
+// -- //
 
+// Id of products choosen for the command
 const id_products_displayed = [];
-const id_products_already_displayed = [];
 
-if (sessionStorage.getItem("id_products_displayed") === null && nbOfProductsAdded == 0) {
+if (sessionStorage.getItem("id_products_displayed") === null && howManyProductsInputValue == 0) {
     sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
 
-} else if (sessionStorage.getItem("id_products_displayed") === null && nbOfProductsAdded > 0) {
+} else if (sessionStorage.getItem("id_products_displayed") === null && howManyProductsInputValue > 0) {
 
     // Add the existing products (command sheet page case)
     const allExistingArticles = Array.from(productSection.children);
@@ -52,36 +60,51 @@ if (sessionStorage.getItem("id_products_displayed") === null && nbOfProductsAdde
     const articleName = document.getElementsByName(`product_name_${i+1}`)[0].value;
     const articleStatus = document.getElementsByName(`product_status_${i+1}`)[0].value;
     const articlePrice = document.getElementsByName(`product_price_${i+1}`)[0].value;
+    const articleSoldPrice = document.getElementsByName(`product_sold_price_${i+1}`)[0].value;
     const articleStock = document.getElementsByName(`product_stock_${i+1}`)[0].value;
+    const articleQuantity = document.getElementsByName(`product_quantity_${i+1}`)[0].value;
 
-    const productArray = [articleId, articleName, articlePrice, articleStatus, articleStock];
+    const productArray = [articleId, articleName, articleStatus, articlePrice, articleSoldPrice, articleStock, articleQuantity];
     sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(productArray));
     id_products_displayed.push(articleId);
-    id_products_already_displayed.push(articleId);
 
     })
-    sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed));
-    sessionStorage.setItem("id_products_already_displayed", JSON.stringify(id_products_already_displayed));
 
+    // Update the current command
+    sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed));
 }
 
+// We added existing products, so we put back howManyProductsInputValue to 0, this value will be incremented when adding the products properly
+howManyProductsInputValue = 0;
+howManyProductsInput.value = howManyProductsInputValue;
+
+// ==============================================================
+// ===================== INITIALIZATION END =====================
+// ==============================================================
+
+// Before creating and adding all the products to the dom, we remove all possible remaining articles from the page (to add them properly later)
+const productSectionItems = Array.from(productSection.children);
+productSectionItems.forEach(child => {
+    productSection.removeChild(child);
+})
+
+
+// Add properly all the products
 for (let i = 0; i < nb_products; i++) {
-    // -- Create a full product
 
     // Get the product
     const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
-
-    // if the article is already displayed
-    if (sessionStorage.getItem("id_products_already_displayed") !== null) {
-        if (JSON.parse(sessionStorage.getItem("id_products_already_displayed")).includes(storedProduct[0])) {
-            continue;
-        }
-    }
+    const articleId = storedProduct[0];
+    const articleName = storedProduct[1];
+    const articleStatus = storedProduct[2];
+    const articlePrice = storedProduct[3];
+    const articleSoldPrice = storedProduct[4];
+    const articleStock = storedProduct[5];
+    const articleQuantity = storedProduct[6];
 
     // Add a product to the total of product
-    nbOfProductsAdded++;
-    howManyProductsInput.value = nbOfProductsAdded;
-
+    howManyProductsInputValue++;
+    howManyProductsInput.value = howManyProductsInputValue;
 
     const divSection = document.createElement("div");
     divSection.classList.add("section");
@@ -96,7 +119,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec0.setAttribute("name", `product_id_${i+1}`);
     inputSec0.classList.add("locked");
     inputSec0.readOnly = true;
-    inputSec0.value = storedProduct[0];
+    inputSec0.value = articleId;
 
     // product name
     const divSec1Input1 = document.createElement("div");
@@ -109,7 +132,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec11.setAttribute("name", `product_name_${i+1}`);
     inputSec11.classList.add("locked");
     inputSec11.readOnly = true;
-    inputSec11.value = storedProduct[1]
+    inputSec11.value = articleName;
 
     divSec1Input1.appendChild(labelSec1Input1)
     divSec1Input1.appendChild(inputSec11)
@@ -124,7 +147,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec12.setAttribute("name", `product_status_${i+1}`);
     inputSec12.classList.add("locked");
     inputSec12.readOnly = true;
-    inputSec12.value = storedProduct[3]
+    inputSec12.value = articleStatus;
 
     divSec1Input2.appendChild(labelSec1Input2)
     divSec1Input2.appendChild(inputSec12)
@@ -137,6 +160,7 @@ for (let i = 0; i < nb_products; i++) {
     const divSec2 = document.createElement("div");
     divSec2.classList.add("sec");
 
+    // unit price
     const divSec2Input1 = document.createElement("div");
     divSec2Input1.classList.add("cont-input");
     const labelSec2Input1 = document.createElement("label");
@@ -146,11 +170,12 @@ for (let i = 0; i < nb_products; i++) {
     inputSec21.setAttribute("name", `product_price_${i+1}`);
     inputSec21.classList.add("locked");
     inputSec21.readOnly = true;
-    inputSec21.value = storedProduct[2]
+    inputSec21.value = articlePrice;
 
     divSec2Input1.appendChild(labelSec2Input1)
     divSec2Input1.appendChild(inputSec21)
 
+    // sold price
     const divSec2Input2 = document.createElement("div");
     divSec2Input2.classList.add("cont-input");
     const labelSec2Input2 = document.createElement("label");
@@ -160,6 +185,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec22.setAttribute("name", `product_sold_price_${i+1}`);
     inputSec22.setAttribute("placeholder", 20);
     inputSec22.required = true;
+    inputSec22.value = articleSoldPrice;
 
     divSec2Input2.appendChild(labelSec2Input2)
     divSec2Input2.appendChild(inputSec22)
@@ -171,6 +197,7 @@ for (let i = 0; i < nb_products; i++) {
     const divSec3 = document.createElement("div");
     divSec3.classList.add("sec");
 
+    // nb dispo
     const divSec3Input1 = document.createElement("div");
     divSec3Input1.classList.add("cont-input");
     const labelSec3Input1 = document.createElement("label");
@@ -180,11 +207,12 @@ for (let i = 0; i < nb_products; i++) {
     inputSec31.setAttribute("name", `product_stock_${i+1}`);
     inputSec31.classList.add("locked");
     inputSec31.readOnly = true;
-    inputSec31.value = storedProduct[4]
+    inputSec31.value = articleStock;
 
     divSec3Input1.appendChild(labelSec3Input1)
     divSec3Input1.appendChild(inputSec31)
 
+    // quantity
     const divSec3Input2 = document.createElement("div");
     divSec3Input2.classList.add("cont-input");
     const labelSec3Input2 = document.createElement("label");
@@ -194,13 +222,14 @@ for (let i = 0; i < nb_products; i++) {
     inputSec32.setAttribute("name", `product_quantity_${i+1}`);
     inputSec32.setAttribute("placeholder", 2);
     inputSec32.required = true;
+    inputSec32.value = articleQuantity;
 
     const divSec3InputBtn = document.createElement("div");
     divSec3InputBtn.classList.add("cont-input");
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-btn");
     deleteBtn.setAttribute("type", "button");
-    deleteBtn.setAttribute("data-id", storedProduct[0])   
+    deleteBtn.setAttribute("data-id", articleId)   ;
     deleteBtn.setAttribute("data-order", i+1)   
     deleteBtn.innerText = "X";
 
@@ -219,14 +248,18 @@ for (let i = 0; i < nb_products; i++) {
     productSection.appendChild(divSection)
 }
 
+// =================================================
+// ================== DELETE BEGIN =================
+// =================================================
+
 // Update names after delete
 const allArticlesDeleteBtn = Array.from(document.querySelectorAll(".product-section .delete-btn"));
 allArticlesDeleteBtn.forEach(btn => {
     btn.addEventListener("click", () => {
 
         // Substrack a product from the total of product
-        nbOfProductsAdded--;
-        howManyProductsInput.value = nbOfProductsAdded;
+        howManyProductsInputValue--;
+        howManyProductsInput.value = howManyProductsInputValue;
 
         const parent = btn.parentElement.parentElement.parentElement;
         
@@ -240,6 +273,7 @@ allArticlesDeleteBtn.forEach(btn => {
 
         sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
 
+
         let currNbProducts = sessionStorage.getItem("nb_products")
         currNbProducts--;
         sessionStorage.setItem("nb_products", currNbProducts);
@@ -248,7 +282,7 @@ allArticlesDeleteBtn.forEach(btn => {
         sessionStorage.removeItem(`product_item_${articleIndex}`)
         productSection.removeChild(parent);
 
-        // Redo the naming
+        // Redo the naming of all remaining articles
         const allArticles = Array.from(document.querySelectorAll(".product-section .section"))
         let i = 0;
         for (let article of allArticles) {
@@ -262,21 +296,39 @@ allArticlesDeleteBtn.forEach(btn => {
             allArticleInputs[5].setAttribute("name", `product_stock_${i+1}`)
             allArticleInputs[6].setAttribute("name", `product_quantity_${i+1}`)
 
-
+            // Clear the storage to update it well again
             sessionStorage.clear()
-            // Redo the naming of session storage
-            sessionStorage.setItem("nb_products", currNbProducts);
 
+            // Redo the naming of session storage and re-add the necessary values
+            sessionStorage.setItem("nb_products", currNbProducts);
             sessionStorage.setItem("id_products_displayed", JSON.stringify(id_products_displayed))
 
-            const productArray = [allArticleInputs[0].value, allArticleInputs[1].value, allArticleInputs[2].value, allArticleInputs[3].value, allArticleInputs[4].value, allArticleInputs[5].value]
+            const productArray = [allArticleInputs[0].value, allArticleInputs[1].value, allArticleInputs[2].value, allArticleInputs[3].value, allArticleInputs[4].value, allArticleInputs[5].value, allArticleInputs[6].value]
 
             sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(productArray));
-
             i++;
         }
-
     })
+})
+
+// =================================================
+// =================== DELETE END ==================
+// =================================================
+
+// Save the quantities and sold_price when choosing a new product
+const chooseNewProduct = document.querySelector(".choose-product");
+chooseNewProduct.addEventListener("click", () => {
+    for (let i = 0; i < nb_products; i++) {
+    
+        const articleSoldPrice = document.getElementsByName(`product_sold_price_${i+1}`)[0].value;
+        const articleQuantity = document.getElementsByName(`product_quantity_${i+1}`)[0].value;
+    
+        const storedProduct = JSON.parse(sessionStorage.getItem(`product_item_${i+1}`));
+        storedProduct[4] = articleSoldPrice;
+        storedProduct[6] = articleQuantity;
+    
+        sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(storedProduct));
+    }
 })
 
 // Clear storage when we leave the page (= click on 'cancel' or click on 'back to search')

@@ -13,18 +13,25 @@ function computeCosts() {
   // Compute the price
   let allPrices = []
   for (let i = 0; i < totalProducts; i++) {
-      let value = parseFloat(JSON.parse(sessionStorage.getItem(`product_item_${i+1}`))[2])
-      allPrices.push(value);
+
+    // Get the 2 inputs (sold_price and quantity) of the articles
+    const soldPriceInput = document.getElementsByName(`product_sold_price_${i+1}`)[0];
+    const quantityInput = document.getElementsByName(`product_quantity_${i+1}`)[0];
+
+    // Get the sold price and the quantity to compute the cost of the article
+    const soldPrice = Number(soldPriceInput.value);
+    const quantity = Number(quantityInput.value);
+    
+    const article_value = soldPrice * quantity;
+    allPrices.push(article_value);
   }
 
+  // Compute the sum
   const initialValue = 0;
-  let sumWithInitial = allPrices.reduce(
+  let sumOfAllPrices = allPrices.reduce(
     (accumulator, currentValue) => accumulator + currentValue,
     initialValue
   );
-
-  sumWithInitial = parseFloat(sumWithInitial);
-
 
   // Get all payment amounts
   const allPaymentAmountsInputs = document.querySelectorAll("#payment_amount");
@@ -32,36 +39,28 @@ function computeCosts() {
   let allPaymentAmounts = 0;
   allPaymentAmountsInputs.forEach(input => {
     if (input.value.length > 0) {
-      allPaymentAmounts += parseFloat(input.value);
+      allPaymentAmounts += Number(input.value);
     }
   })
 
-  let price = sumWithInitial;
+  let price = sumOfAllPrices;
   if (deliveryPriceInput.value.length > 0) {
-    price +=  parseFloat(deliveryPriceInput.value);
+    price +=  Number(deliveryPriceInput.value);
   } 
 
   if (servicePriceInput.value.length > 0) {
-    price +=  parseFloat(servicePriceInput.value);
+    price +=  Number(servicePriceInput.value);
   } 
 
   let rest_to_pay = price - allPaymentAmounts;
-  console.log(price);
 
   totalPriceInput.value = price;
   restToPay.value = rest_to_pay;
 }
 
 computCostBtn.addEventListener("click", computeCosts);
-
-
 const form = document.querySelector("form");
 form.addEventListener("submit", (e) => {
     computeCosts();
     sessionStorage.clear();
-
-    // à supprimer après les tests
-    // e.preventDefault();
-    // window.location.reload();
-
 })

@@ -23,12 +23,13 @@ allArticles.forEach(client => {
      
              const product_name = client.getAttribute("data-name");
              const product_price = client.getAttribute("data-price");
+             const product_sold_price = product_price;
              const product_status = client.getAttribute("data-status");
              const product_dispo = client.getAttribute("data-dispo");
+             const product_quantity = 1;
      
-             const productArray = [product_id, product_name, product_price, product_status, product_dispo]
+             const productArray = [product_id, product_name, product_status,  product_price, product_sold_price, product_dispo, product_quantity];
      
-             
              sessionStorage.setItem(`product_item_${currNbProducts}`, JSON.stringify(productArray));
              
             } 
