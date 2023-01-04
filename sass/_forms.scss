@@ -120,6 +120,19 @@ form {
     }
 }
 
+// Btns specials for command sheet page (delete and invoice)
+.cont-btns .delete-command-btn {
+    @include btn-cta;
+    background: crimson;
+        &:hover {
+            background: #c91237;
+        }
+}
+
+.invoice-btn {
+    @include btn-cta;
+}
+
 .cont-input {
     display: flex;
     flex-direction: column;
@@ -193,6 +206,7 @@ form {
 }
 
 .cont-btns {
+    margin-top: 25px;
     width: 100%;
     @include flex-center;
     justify-content: space-between;

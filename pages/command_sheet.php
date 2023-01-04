@@ -66,7 +66,8 @@
         </a>
     </div>
 
-    <form action="" method="post">
+    <form action="../php/update_command_handler.php" method="post">
+    <input type="hidden" name="id_commande" value="<?= $id_commande ?>">
         <div class="main-form">
 
             <!-- Client -->
@@ -113,7 +114,6 @@
                 $i = 0;
                 foreach($ids_article as $id_article) {
                     $id_article = $id_article['id_produit'];
-                    $i++;
                     $query  = "SELECT * FROM produit WHERE id_produit='$id_article'";
                     $result = $connect->query($query);
                     $product = $result->fetch_all(MYSQLI_ASSOC);
@@ -123,6 +123,8 @@
                     $result = $connect->query($query);
                     $data_product = $result->fetch_all(MYSQLI_ASSOC);
                     $data_product = $data_product[0];
+
+                    $i++;
 
                 ?>
 
@@ -211,6 +213,7 @@
                 ?>    
                 
                     <div class="sec">
+                        <input type="hidden" name="payment_id_<?= $i ?>" value="<?= $id_paiement ?>">
                         <div class="cont-input">
                             <label for="">Dépôt (en €)</label>
                             <input type="number" name="payment_amount_<?= $i ?>" class="locked" readonly value="<?= $data_payment['montant'] ?>" id="payment_amount">
@@ -236,6 +239,7 @@
                         Ajouter un paiement
                     </button>
                     <input type="hidden" name="how_many_payments" value="<?= count($id_paiements) ?>">
+                    <input type="hidden" name="how_many_payments_already_present" value="<?= count($id_paiements) ?>">
                 </div>
             </div>
 
@@ -368,12 +372,17 @@
 
 
         <div class="cont-btns">
+            <button type="submit" formaction="../php/delete_command_handler.php" class="delete-command-btn">Supprimer la commande</button>
+            <button type="submit" formaction="../php/invoice_handler.php" class="invoice-btn">Générer une facture</button>
+        </div>
+
+        <div class="cont-btns">
             <a href="index.html" class="cancel">
                 Annuler
             </a>
 
             <button type="submit">
-                Passer commande
+                Mettre à jour la commande
             </button>
         </div>
 

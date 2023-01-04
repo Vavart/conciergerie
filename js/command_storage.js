@@ -67,6 +67,7 @@ if (sessionStorage.getItem("id_products_displayed") === null && howManyProductsI
     const productArray = [articleId, articleName, articleStatus, articlePrice, articleSoldPrice, articleStock, articleQuantity];
     sessionStorage.setItem(`product_item_${i+1}`, JSON.stringify(productArray));
     id_products_displayed.push(articleId);
+    i++;
 
     })
 
