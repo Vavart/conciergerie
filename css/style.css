@@ -464,6 +464,27 @@ form {
 .cont-input.radio input:checked {
   border: 6px solid #ffffff;
 }
+.cont-input.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.cont-input.checkbox input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  transition: 0.1s all linear;
+  cursor: pointer;
+}
+.cont-input.checkbox input:checked {
+  border: 6px solid #ffffff;
+}
 .cont-input .cont-input-btn {
   display: flex;
   justify-content: center;
