@@ -19,13 +19,7 @@
         $is_ultimate = 0;
     }
 
-
-    // Determine the membership from the client's unspent points
-    $query = "";
-    $result = $connect->query($query);
-    // ...
-
-    $membership = $_POST['membership'];
+    $membership ='Silver';
 
     // Create a code for the client
     $code_year = date("y");
@@ -39,7 +33,7 @@
     $code = $code_year."-".$code_name."-".$code_value;
     
     // Insert in the database
-    $query = "INSERT INTO `client` (`id_client`, `name`, `surname`, `code`, `postal_address`, `facebook_username`, `instagram_username`, `email`, `membership`, `next_discount`) VALUES (0,'$prenom','$nom','$code','$address','$facebook','$instagram','$mail','$membership',0)";
+    $query = "INSERT INTO `client` (`id_client`, `name`, `surname`, `code`, `postal_address`, `facebook_username`, `instagram_username`, `email`, `membership`, `is_ultimate`, `next_discount`) VALUES (0,'$prenom','$nom','$code','$address','$facebook','$instagram','$mail','$membership', '$is_ultimate' , 0)";
 
     $result = $connect->query($query);
 

@@ -29,21 +29,38 @@
     $client = $result->fetch_all(MYSQLI_ASSOC);
     $client = $client[0];
 
-    // The points of the clients
     $id_client = $client['id_client'];
-    $query = "SELECT * FROM points WHERE id_client='$id_client'";
+
+    // The points of the clients that are not spent
+    $query = "SELECT * FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
     $result = $connect->query($query);
-    $points = $result->fetch_all(MYSQLI_ASSOC);
-    
-    if (empty($points)) {
+    $points_unspent = $result->fetch_all(MYSQLI_ASSOC);
+
+    if (empty($points_unspent)) {
         $points = [];
-        $sum = 0;
+        $sum_points_unspent = 0;
     } else {
-        // Get the sum of all points
-        $query = "SELECT SUM(nb_points) FROM points WHERE id_client='$id_client'";
+        // Get the sum of all points that are not spent
+        $query = "SELECT SUM(nb_points) FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
         $result = $connect->query($query);
         $result = $result->fetch_all(MYSQLI_ASSOC);
-        $sum = $result[0]['SUM(nb_points)'];
+        $sum_points_unspent = $result[0]['SUM(nb_points)'];
+    }
+
+    // The points of the client that are spent
+    $query = "SELECT * FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NOT NULL";
+    $result = $connect->query($query);
+    $points_spent = $result->fetch_all(MYSQLI_ASSOC);
+    
+    if (empty($points_spent)) {
+        $points = [];
+        $sum_points_spent = 0;
+    } else {
+        // Get the sum of all points that are spent
+        $query = "SELECT SUM(nb_points) FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NOT NULL";
+        $result = $connect->query($query);
+        $result = $result->fetch_all(MYSQLI_ASSOC);
+        $sum_points_spent = $result[0]['SUM(nb_points)'];
     }
     // echo '<pre>',var_dump($sum),'</pre>';
 
@@ -56,7 +73,7 @@
 
     <!-- JS -->
     <script src="../js/add_phone_number.js" defer ></script>
-    <script src="../js/add_points.js" defer ></script>
+    <script src="../js/add_points_unspent.js" defer ></script>
 
 </head>
 <body>
@@ -171,84 +188,38 @@
                     <div class="sec membership">
                         <label for="membership" class="subtitle">Membership :</label>
 
-                        <?php 
-                            if ($client['membership'] == "silver") { ?>
-                                <div class="cont-input radio">
-                                    <label for="silver">Silver</label>
-                                    <input type="radio" name="membership" id="membership" value="silver" checked>
-                                </div>
-                            <?php } else { ?>
-                                <div class="cont-input radio">
-                                    <label for="silver">Silver</label>
-                                    <input type="radio" name="membership" id="membership" value="silver">
-                                </div>
-                           <?php }
-                            if ($client['membership'] == "gold") { ?>
-                                <div class="cont-input radio">
-                                    <label for="gold">Gold</label>
-                                    <input type="radio" name="membership" id="membership" value="gold" checked>
-                                </div>
-                            <?php } else { ?>
-                                <div class="cont-input radio">
-                                    <label for="gold">Gold</label>
-                                    <input type="radio" name="membership" id="membership" value="gold">
-                                </div>
-                           <?php }
-                            if ($client['membership'] == "platinum") { ?>
-                                <div class="cont-input radio">
-                                    <label for="platinum">Platinum</label>
-                                    <input type="radio" name="membership" id="membership" value="platinum" checked>
-                                </div>
-                            <?php } else { ?>
-                                <div class="cont-input radio">
-                                    <label for="platinum">Platinum</label>
-                                    <input type="radio" name="membership" id="membership" value="platinum">
-                                </div>
-                           <?php }
-                            if ($client['membership'] == "ultimate") { ?>
-                                <div class="cont-input radio">
-                                    <label for="ultimate">Ultimate</label>
-                                    <input type="radio" name="membership" id="membership" value="ultimate" checked>
-                                </div>
-                            <?php } else { ?>
-                                <div class="cont-input radio">
-                                    <label for="ultimate">Ultimate</label>
-                                    <input type="radio" name="membership" id="membership" value="ultimate">
-                                </div>
-                           <?php }
-                        ?>
+                        <div class="cont-input">
+                            <input type="text" name="membership" class="locked" readonly value="<?= $client['membership'] ?>">
+                        </div>
                     </div>
                 </div>
 
-                <h2 class="sec-title">Points</h2>
+
+                <!-- Unspent spoints -->
+                <h2 class="sec-title">Points disponibles</h2>
 
                 <div class="section">
                     <div class="sec">
                         <div class="cont-input">
-                            <label for="total_points">Nombre de points totaux</label>
-                            <input type="text" name="total_points" id="total_points" class="locked" readonly value="<?= $sum ?>">
+                            <label for="total_points">Nombre de points totaux non dépensés</label>
+                            <input type="text" name="total_points" id="total_points" class="locked" readonly value="<?= $sum_points_unspent ?>">
                         </div>
                     </div>
 
-                    <div class="cont-points">
+                    <div class="cont-points points-unspent">
 
                     <?php 
 
                         $i = 0;
-                        foreach($points as $point) { ?>
+                        foreach($points_unspent as $point) { ?>
                         <div class="sec">
                             <div class="cont-input">
-                                <label for="total_points">Nombre de points</label>
-                                <input type="text" name="<?='points_'.$i+1 ?>" id="points" class="locked" readonly value="<?= $point['nb_points'] ?>">
+                                <label for="total_points_unspent">Nombre de points</label>
+                                <input type="text" name="<?='points_unspent_'.$i+1 ?>" id="points" class="locked" readonly value="<?= $point['nb_points'] ?>">
                             </div>
                             <div class="cont-input">
                                 <label for="total_points">Date d'expiration</label>
-                                <input type="date" name="<?='exp_date_'.$i+1 ?>" id="exp_date" value="<?= $point['exp_date'] ?>" class="locked" readonly>
-                            </div>
-                            <div class="cont-input">
-                                <button class="delete-btn" type="button">
-                                    X
-                                </button>
+                                <input type="date" name="<?='exp_date_unspent_'.$i+1 ?>" id="exp_date" value="<?= $point['exp_date'] ?>" class="locked" readonly>
                             </div>
                         </div>
                         <?php $i++; }
@@ -262,11 +233,51 @@
                                 Ajouter des points
                             </button>
         
-                            <!-- Hidden input to know how much phone numbers there are -->
-                            <input type="hidden" name="how_many_points" value=<?= count($points) ?>>
+                            <!-- Hidden input to know how much unspent points there are -->
+                            <input type="hidden" name="how_many_points_unspent" value=<?= count($points_unspent) ?>>
                         </div>
                     </div>
-            </div>
+                </div>
+
+                <!-- Spent spoints -->
+                <h2 class="sec-title">Historique des points dépensés</h2>
+
+                <div class="section">
+                    <div class="sec">
+                        <div class="cont-input">
+                            <label for="total_points">Nombre de points totaux dépensés</label>
+                            <input type="text" name="total_points_spent" id="total_points" class="locked" readonly value="<?= $sum_points_spent ?>">
+                        </div>
+                    </div>
+
+                    <div class="cont-points points-spent">
+
+                    <?php 
+
+                        $i = 0;
+                        foreach($points_spent as $point) { ?>
+                        <div class="sec">
+                            <div class="cont-input">
+                                <label for="total_points">Nombre de points</label>
+                                <input type="text" name="<?='points_spent_'.$i+1 ?>" id="points" class="locked" readonly value="<?= $point['nb_points'] ?>">
+                            </div>
+                            <div class="cont-input">
+                                <label for="total_points">Date d'expiration</label>
+                                <input type="date" name="<?='exp_date_spent_'.$i+1 ?>" id="exp_date" value="<?= $point['exp_date'] ?>" class="locked" readonly>
+                            </div>
+                        </div>
+                        <?php $i++; }
+                    
+                    ?>
+                    </div>
+
+                    <div class="sec col">
+                        <div class="cont-add-points">        
+                            <!-- Hidden input to know how much unspent points there are -->
+                            <input type="hidden" name="how_many_points_spent" value=<?= count($points_spent) ?>>
+                        </div>
+                    </div>
+                </div>
 
             <div class="cont-btns">
                 <a href="search_client.php" class="cancel">

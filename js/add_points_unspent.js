@@ -1,10 +1,10 @@
 const btnToAddPoints = document.querySelector(".add-points");
-const contPoints = document.querySelector(".cont-points");
-const howManyPoints = document.getElementsByName("how_many_points")[0];
+const contPoints = document.querySelector(".points-unspent");
+const howManyPoints = document.getElementsByName("how_many_points_unspent")[0];
 let nbOfPointsAdded = howManyPoints.value;
 
 // Listening to every delete button already present
-const allDeletePointsBtns = Array.from(document.querySelectorAll(".cont-points .delete-btn"));
+const allDeletePointsBtns = Array.from(document.querySelectorAll(".points-unspent .delete-btn"));
 
 allDeletePointsBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -14,18 +14,18 @@ allDeletePointsBtns.forEach(btn => {
         howManyPoints.value = nbOfPointsAdded;
 
         // Update every name
-        const allPointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=text]"));
-        const allDatePointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=date]"));
+        const allPointsInputs = Array.from(document.querySelectorAll(".cont-points.points-unspent input[type=text]"));
+        const allDatePointsInputs = Array.from(document.querySelectorAll(".cont-points.points-unspent input[type=date]"));
 
         let i = 0;
         allPointsInputs.forEach(input => {
-            input.setAttribute("name", `points_${i+1}`);
+            input.setAttribute("name", `points_unspent_${i+1}`);
             i++;
         })
 
         i = 0;
         allDatePointsInputs.forEach(input => {
-            input.setAttribute("name", `exp_date_${i+1}`);
+            input.setAttribute("name", `exp_date_unspent_${i+1}`);
             i++;
         })
     })
@@ -47,7 +47,7 @@ btnToAddPoints.addEventListener("click", () => {
     const label1 = document.createElement("label");
     const inputText = document.createElement("input");
     inputText.setAttribute("type", "text");
-    inputText.setAttribute("name", `points_${nbOfPointsAdded}`);
+    inputText.setAttribute("name", `points_unspent_${nbOfPointsAdded}`);
     inputText.setAttribute("id", "points");
     inputText.setAttribute("placeholder", "300");
     inputText.required = true;
@@ -61,7 +61,7 @@ btnToAddPoints.addEventListener("click", () => {
     const label2 = document.createElement("label");
     const inputDate = document.createElement("input");
     inputDate.setAttribute("type", "date");
-    inputDate.setAttribute("name", `exp_date_${nbOfPointsAdded}`);
+    inputDate.setAttribute("name", `exp_date_unspent_${nbOfPointsAdded}`);
     inputDate.setAttribute("id", "exp_date");
     inputDate.required = true;
 
@@ -93,18 +93,18 @@ btnToAddPoints.addEventListener("click", () => {
         howManyPoints.value = nbOfPointsAdded;
         
         // Update every name
-        const allPointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=text]"));
-        const allDatePointsInputs = Array.from(document.querySelectorAll(".cont-points input[type=date]"));
+        const allPointsInputs = Array.from(document.querySelectorAll(".points-unspent input[type=text]"));
+        const allDatePointsInputs = Array.from(document.querySelectorAll(".points-unspent input[type=date]"));
 
         let i = 0;
         allPointsInputs.forEach(input => {
-            input.setAttribute("name", `points_${i+1}`);
+            input.setAttribute("name", `points_unspent_${i+1}`);
             i++;
         })
 
         i = 0;
         allDatePointsInputs.forEach(input => {
-            input.setAttribute("name", `exp_date_${i+1}`);
+            input.setAttribute("name", `exp_date_unspent_${i+1}`);
             i++;
         })
     });
