@@ -117,7 +117,7 @@
     $result = $connect->query($query);
     $points = $result->fetch_all(MYSQLI_ASSOC);
     $how_many_points_before = count($points);
-    $how_many_points_now = $_POST['how_many_points'];
+    $how_many_points_now = $_POST['how_many_points_unspent'];
     
     for ($i = $how_many_points_before; $i < $how_many_points_now; $i++) {
 

@@ -24,10 +24,11 @@
 
     <?php
 
+    // Get the client info
     $query = "SELECT * FROM client";
     $result = $connect->query($query);
     $clients = $result->fetch_all(MYSQLI_ASSOC);
-    
+
     ?>
 
 </head>
@@ -66,8 +67,27 @@
 
                     <?php 
                     
-                    foreach ($clients as $client) { ?>
-                        <tr data-code="<?= $client['code'] ?>" data-id="<?= $client['id_client'] ?>" data-name="<?= $client['name']." ".$client['surname'] ?>" data-mail="<?= $client['email'] ?>">
+                    foreach ($clients as $client) { 
+                        
+                        // Get the **unspent** points information of the client to transfer them to the command with javascript
+
+                        $id_client = $client['id_client'];
+                        $query = "SELECT * FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
+                        $result = $connect->query($query);
+                        $points_info = $result->fetch_all(MYSQLI_ASSOC);
+                        
+                        $client_unspent_points = "";
+                        // Check if the clients have points
+                        if (!empty($points_info)) {
+
+                            // For every points the client have
+                            for ($i = 0; $i < count($points_info); $i++) {
+                                $client_unspent_points .= implode(",", $points_info[$i]);
+                            }
+                        }
+                      
+                        ?>
+                        <tr data-code="<?= $client['code'] ?>" data-id="<?= $client['id_client'] ?>" data-name="<?= $client['name']." ".$client['surname'] ?>" data-mail="<?= $client['email'] ?>" data-points=<?= $client_unspent_points ?>>
                             <td><?= $client['id_client'] ?></td>
                             <td><?= $client['code'] ?></td>
                             <td><?= $client['name']." ".$client['surname'] ?></td>

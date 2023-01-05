@@ -9,6 +9,10 @@ const client_id = sessionStorage.getItem("id_client");
 const client_code = sessionStorage.getItem("code_client");
 const client_name = sessionStorage.getItem("client_name");
 const client_mail = sessionStorage.getItem("client_mail");
+const client_points = JSON.parse(sessionStorage.getItem("client_points"));
+
+// Get the point section
+const point_section = document.querySelector(".cont-points");
 
 // Get the product section
 const productSection = document.querySelector(".product-section");
@@ -19,10 +23,109 @@ const productSection = document.querySelector(".product-section");
 
 // If we are on the "add command page" we replace the values of the client inputs (not in "command page") because the client is already known
 if (window.location.pathname.includes("add_command.php")) {
+
     numeroClient.value = client_id;
     codeClient.value = client_code;
     nameClient.value = client_name;
     mailClient.value = client_mail;
+
+    if (client_points != null && client_points.length != 0) {
+  
+        for (let i = 0; i < client_points.length; i++) {
+    
+            // Creating a section for every unspent point
+            const divSection = document.createElement("div");
+            divSection.classList.add("section");
+
+            const divSec1 = document.createElement("div");
+            divSec1.classList.add("sec");
+    
+            // nb_points
+            const divInput1 = document.createElement("div");
+            divInput1.classList.add("cont-input");
+            const labelInput1 = document.createElement("label");
+            labelInput1.innerText = "Nombre de points";
+            const input1 = document.createElement("input");
+            input1.classList.add("locked");
+            input1.setAttribute("type", "text");
+            input1.setAttribute("name", `points_unspent_${i+1}`);
+            input1.readOnly = true;
+            input1.value = client_points[i]['nb_points'];
+    
+            divInput1.appendChild(labelInput1);
+            divInput1.appendChild(input1);
+    
+            // date
+            const divInput2 = document.createElement("div");
+            divInput2.classList.add("cont-input");
+            const labelInput2 = document.createElement("label");
+            labelInput2.innerText = "Date d'expiration";
+            const input2 = document.createElement("input");
+            input2.classList.add("locked");
+            input2.setAttribute("type", "date");
+            input2.setAttribute("name", `exp_date_unspent_${i+1}`);
+            input2.readOnly = true;
+            input2.value = client_points[i]['exp_date'];
+            
+            divInput2.appendChild(labelInput2);
+            divInput2.appendChild(input2);
+            
+            
+            const divSec2 = document.createElement("div");
+            divSec2.classList.add("sec");
+            
+            // checkbox : want to use for command
+            const divInput3 = document.createElement("div");
+            divInput3.classList.add("cont-input");
+            divInput3.classList.add("checkbox");
+            const labelInput3 = document.createElement("label");
+            labelInput3.innerText = "Utiliser pour la commande";
+            const input3 = document.createElement("input");
+            input3.setAttribute("type", "checkbox");
+            input3.setAttribute("name", `use_points_${i+1}`);
+            
+            divInput3.appendChild(labelInput3);
+            divInput3.appendChild(input3);
+            
+            // reason for using points
+            const divInput4 = document.createElement("div");
+            divInput4.classList.add("cont-input");
+            const labelInput4 = document.createElement("label");
+            labelInput4.innerText = "Règle d'utilisation";
+            const input4 = document.createElement("input");
+            input4.setAttribute("type", "text");
+            input4.setAttribute("name", `point_use_rule_${i+1}`);
+            input4.setAttribute("placeholder", "20% de remise");
+
+            // input hidden to get the id later in the php
+            const inputHidden = document.createElement("input");
+            inputHidden.setAttribute("type", "hidden");
+            inputHidden.value = client_points[i]["id_points"];
+
+            divInput4.appendChild(labelInput4);
+            divInput4.appendChild(input4);
+            divInput4.appendChild(inputHidden);
+            
+            // add to dom
+            divSec1.appendChild(divInput1);
+            divSec1.appendChild(divInput2);
+
+            divSec2.appendChild(divInput3);
+            divSec2.appendChild(divInput4);
+
+            divSection.appendChild(divSec1);
+            divSection.appendChild(divSec2);
+
+            point_section.appendChild(divSection);
+        }
+    }
+
+    else if (numeroClient != null && client_points.length === 0) {
+        const p = document.createElement("p");
+        p.innerText = "Ce client n'a aucun point disponible :(";
+        point_section.appendChild(p);
+    }
+
 }
 
 // If we are on the "command sheet" page we need to add the products to the session_storage first

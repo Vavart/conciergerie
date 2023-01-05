@@ -17,6 +17,13 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
 
+    <!-- PHP-->
+    <?php
+    
+    
+
+    ?>
+
     <!-- JS -->
     <script src="../js/command_storage.js" defer></script>
     <script src="../js/add_payment.js" defer></script>
@@ -70,6 +77,12 @@
                     </a>
                 </div>
             </div>
+
+            <!-- Client's unspent points -->
+           <h2 class="sec-title">Points disponibles</h2>
+           <div class="section cont-points">
+                <!-- Points will be there -->
+           </div> 
             
             <!-- Products -->
             <h2 class="sec-title">Produits</h2>

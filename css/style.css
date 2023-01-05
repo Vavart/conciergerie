@@ -161,7 +161,7 @@ form {
 }
 
 .section {
-  margin: 40px auto;
+  margin: 40px 20px;
   max-width: 1200px;
   display: flex;
   justify-content: center;

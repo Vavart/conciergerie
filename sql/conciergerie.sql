@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 04 jan. 2023 à 11:38
+-- Généré le : jeu. 05 jan. 2023 à 18:32
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.1.12
 
@@ -29,8 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cadre_depense_points` (
   `id_cadre_depense_points` bigint(20) UNSIGNED NOT NULL,
-  `id_historique_points` bigint(20) UNSIGNED NOT NULL
+  `id_historique_points` bigint(20) UNSIGNED NOT NULL,
+  `motif_utilisation` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `cadre_depense_points`
+--
+
+INSERT INTO `cadre_depense_points` (`id_cadre_depense_points`, `id_historique_points`, `motif_utilisation`) VALUES
+(1, 1, 'cadeau offert');
 
 -- --------------------------------------------------------
 
@@ -40,13 +48,13 @@ CREATE TABLE `cadre_depense_points` (
 
 CREATE TABLE `client` (
   `id_client` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `surname` varchar(20) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `surname` varchar(200) NOT NULL,
   `code` varchar(15) NOT NULL,
   `postal_address` varchar(200) NOT NULL,
-  `facebook_username` varchar(20) NOT NULL,
-  `instagram_username` varchar(20) NOT NULL,
-  `email` varchar(25) NOT NULL,
+  `facebook_username` varchar(200) NOT NULL,
+  `instagram_username` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL,
   `membership` varchar(15) NOT NULL,
   `is_ultimate` tinyint(4) NOT NULL,
   `next_discount` tinyint(3) UNSIGNED NOT NULL,
@@ -58,9 +66,10 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id_client`, `name`, `surname`, `code`, `postal_address`, `facebook_username`, `instagram_username`, `email`, `membership`, `is_ultimate`, `next_discount`, `arrival_date`) VALUES
-(6, 'Kévin', 'De la Gare', '22-SPR-0001', '6 Rue de la Pastaga', 'facebook', 'insta', 'mail@yahoo.fr', 'ultimate', 0, 0, '2022-12-30'),
-(14, 'Jean Michel', 'de la gare', '22-SPR-0002', '6 Rue de la pastagaaaaaaaaaaaaa', 'fb', 'insta', 'mail@yahoo.fr', 'silver', 0, 0, '2022-12-30'),
-(15, 'Michel', 'Dupont', '22-SPR-0003', 'Rue des Mimosas 75000 Paris', 'michou', 'dudu', 'dupont.michel@yahoo.fr', 'platinum', 0, 0, '2022-12-30');
+(6, 'Kévin', 'De la Gare', '22-SPR-0001', '6 Rue de la Pastaga', 'facebook', 'insta', 'mail@yahoo.fr', 'Silver', 0, 0, '2022-12-30'),
+(14, 'Jean Michel', 'de la gare', '22-SPR-0002', '6 Rue de la pastagaaaaaaaaaaaaa', 'fb', 'insta', 'mail@yahoo.fr', 'Silver', 0, 0, '2022-12-30'),
+(15, 'Michel', 'Dupont', '22-SPR-0003', 'Rue des Mimosas 75000 Paris', 'michou', 'dudu', 'dupont.michel@yahoo.fr', 'Silver', 0, 0, '2022-12-30'),
+(16, 'Jean', 'Némar', '23-SPR-0004', '17 Rue des Clébards', 'JN', 'JNN (Jean Neural Network)', 'jeannemar@gmail.com', 'Silver', 1, 0, '2023-01-05');
 
 -- --------------------------------------------------------
 
@@ -79,6 +88,13 @@ CREATE TABLE `commande` (
   `service_price` int(11) NOT NULL,
   `note` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`id_commande`, `id_points`, `numero`, `cmd_date`, `cmd_arrival_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES
+(14, 27, '050123-CMD-C001', '2023-01-05', '0000-00-00', 'to_buy', 0, 0, 'nonote');
 
 -- --------------------------------------------------------
 
@@ -106,6 +122,13 @@ CREATE TABLE `historique` (
   `sold_price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `historique`
+--
+
+INSERT INTO `historique` (`id_commande`, `id_produit`, `quantity`, `sold_price`) VALUES
+(14, 1, 1, 10);
+
 -- --------------------------------------------------------
 
 --
@@ -116,6 +139,13 @@ CREATE TABLE `historique_points` (
   `id_historique_points` bigint(20) UNSIGNED NOT NULL,
   `id_client` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `historique_points`
+--
+
+INSERT INTO `historique_points` (`id_historique_points`, `id_client`) VALUES
+(1, 16);
 
 -- --------------------------------------------------------
 
@@ -128,6 +158,13 @@ CREATE TABLE `liste_client_commande` (
   `id_commande` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `liste_client_commande`
+--
+
+INSERT INTO `liste_client_commande` (`id_client`, `id_commande`) VALUES
+(6, 14);
+
 -- --------------------------------------------------------
 
 --
@@ -138,6 +175,13 @@ CREATE TABLE `liste_paiement_commande` (
   `id_paiement` bigint(20) UNSIGNED NOT NULL,
   `id_commande` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `liste_paiement_commande`
+--
+
+INSERT INTO `liste_paiement_commande` (`id_paiement`, `id_commande`) VALUES
+(21, 14);
 
 -- --------------------------------------------------------
 
@@ -171,6 +215,13 @@ CREATE TABLE `paiement` (
   `payment_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `paiement`
+--
+
+INSERT INTO `paiement` (`id_paiement`, `id_mode_paiement`, `montant`, `payment_date`) VALUES
+(21, 6, 5, '2023-01-05');
+
 -- --------------------------------------------------------
 
 --
@@ -184,6 +235,15 @@ CREATE TABLE `points` (
   `exp_date` date NOT NULL,
   `id_cadre_depense_points` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `points`
+--
+
+INSERT INTO `points` (`id_points`, `id_client`, `nb_points`, `exp_date`, `id_cadre_depense_points`) VALUES
+(27, 16, 100, '2024-01-05', NULL),
+(28, 16, 150, '2024-01-05', 1),
+(29, 16, 75, '2023-01-15', NULL);
 
 -- --------------------------------------------------------
 
@@ -229,7 +289,9 @@ INSERT INTO `telephone` (`id_telephone`, `id_client`, `numero`) VALUES
 (6, 14, '332'),
 (7, 6, '33245'),
 (8, 15, '3364585956271'),
-(9, 15, '33245');
+(9, 15, '33245'),
+(10, 16, '33245856595'),
+(11, 16, '33674846424');
 
 --
 -- Index pour les tables déchargées
@@ -332,19 +394,19 @@ ALTER TABLE `telephone`
 -- AUTO_INCREMENT pour la table `cadre_depense_points`
 --
 ALTER TABLE `cadre_depense_points`
-  MODIFY `id_cadre_depense_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cadre_depense_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id_client` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_client` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id_commande` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_commande` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `facture`
@@ -356,7 +418,7 @@ ALTER TABLE `facture`
 -- AUTO_INCREMENT pour la table `historique_points`
 --
 ALTER TABLE `historique_points`
-  MODIFY `id_historique_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_historique_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `mode_paiement`
@@ -368,13 +430,13 @@ ALTER TABLE `mode_paiement`
 -- AUTO_INCREMENT pour la table `paiement`
 --
 ALTER TABLE `paiement`
-  MODIFY `id_paiement` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_paiement` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT pour la table `points`
 --
 ALTER TABLE `points`
-  MODIFY `id_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_points` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
@@ -386,7 +448,7 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `telephone`
 --
 ALTER TABLE `telephone`
-  MODIFY `id_telephone` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_telephone` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Contraintes pour les tables déchargées

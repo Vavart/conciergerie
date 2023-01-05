@@ -255,7 +255,14 @@
                     <?php 
 
                         $i = 0;
-                        foreach($points_spent as $point) { ?>
+                        foreach($points_spent as $point) { 
+                            
+                            $id_cadre_depense_points = $point['id_cadre_depense_points'];
+                            $query = "SELECT * FROM cadre_depense_points WHERE id_cadre_depense_points='$id_cadre_depense_points'";
+                            $result = $connect->query($query);
+                            $use_case = $result->fetch_all(MYSQLI_ASSOC);
+                            $use_case = $use_case[0]['motif_utilisation'];
+                            ?>
                         <div class="sec">
                             <div class="cont-input">
                                 <label for="total_points">Nombre de points</label>
@@ -264,6 +271,10 @@
                             <div class="cont-input">
                                 <label for="total_points">Date d'expiration</label>
                                 <input type="date" name="<?='exp_date_spent_'.$i+1 ?>" id="exp_date" value="<?= $point['exp_date'] ?>" class="locked" readonly>
+                            </div>
+                            <div class="cont-input">
+                                <label for="">Contexte d'utilisation</label>
+                                <input type="text" name="points_spent_reason_<?= $i ?>" class="locked" readonly value="<?= $use_case ?>">
                             </div>
                         </div>
                         <?php $i++; }
