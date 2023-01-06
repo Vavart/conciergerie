@@ -100,6 +100,7 @@ if (window.location.pathname.includes("add_command.php")) {
             // input hidden to get the id later in the php
             const inputHidden = document.createElement("input");
             inputHidden.setAttribute("type", "hidden");
+            inputHidden.setAttribute("name", `id_points_unspent_${i+1}`);
             inputHidden.value = client_points[i]["id_points"];
 
             divInput4.appendChild(labelInput4);
@@ -118,6 +119,14 @@ if (window.location.pathname.includes("add_command.php")) {
 
             point_section.appendChild(divSection);
         }
+
+        // hidden input telling how many unspent points are available
+        const howManyPointsInput = document.createElement("input");
+        howManyPointsInput.setAttribute("type", "hidden");
+        howManyPointsInput.setAttribute("name", "how_many_unspent_points");
+        howManyPointsInput.value = client_points.length;
+
+        point_section.appendChild(howManyPointsInput);
     }
 
     else if (numeroClient != null && client_points.length === 0) {

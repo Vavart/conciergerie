@@ -13,9 +13,7 @@
     // Check if the member is up-classed to ultimate
     if (isset($_POST['is_ultimate'])) {
         $is_ultimate = 1;
-        echo 'checked';
     } else {
-        echo 'not checked';
         $is_ultimate = 0;
     }
 

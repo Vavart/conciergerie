@@ -5,22 +5,81 @@
     // check if there is a client
     if (!isset($_POST['numero']) || $_POST['numero'] == "") {
         header('Location: ../pages/index.html?msg=error'); // error
+        exit();
     }
     
     // check if there is at least product
     if (!isset($_POST['product_name_1']) || $_POST['product_name_1'] == "") {
         header('Location: ../pages/index.html?msg=error'); // error
+        exit();
     }
 
     // check if there is a payment
     if (!isset($_POST['payment_amount_1']) || $_POST['payment_amount_1'] == "") {
         header('Location: ../pages/index.html?msg=error'); // error
+        exit();
     }
 
     // Create points and link it to the client
     $id_client = $_POST['numero'];
+
+    // Check if any points were used in the command
+    if (isset($_POST['how_many_unspent_points'])) {
+        $how_many_unspent_points = $_POST['how_many_unspent_points'];
+
+        for ($i = 0; $i < $how_many_unspent_points; $i++) {
+
+            $key_use_points = "use_points_".($i+1);
+
+            // if the checkbox is checked get id and reason
+            if (isset($_POST[$key_use_points])) {
+
+                $key_points_id = "id_points_unspent_".($i+1);
+                $key_points_rule = "point_use_rule_".($i+1);
+
+                $points_id = $_POST[$key_points_id];
+                $points_rule = $_POST[$key_points_rule];
+
+                // check if the client has an history, if not create one
+                $query = "SELECT * FROM historique_points WHERE id_client='$id_client'";
+                $result = $connect->query($query);
+                $result = $result->fetch_all(MYSQLI_ASSOC);
+
+                // If the client doesn't have an history, create one
+                if (count($result) === 0) {
+                    $query = "INSERT INTO historique_points (`id_historique_points`, `id_client`) VALUES (0,'$id_client')";
+                    $result = $connect->query($query);
+                }
+
+                // Get the id of the history of the client
+                $query = "SELECT id_historique_points FROM historique_points WHERE id_client='$id_client'";
+                $result = $connect->query($query);
+                $id_historique_points = $result->fetch_all(MYSQLI_ASSOC);
+                $id_historique_points = $id_historique_points[0]['id_historique_points'];
+
+                // create a cadre_depense_points linked to this history with the rule
+                $query = "INSERT INTO cadre_depense_points (`id_cadre_depense_points`, `id_historique_points`, `motif_utilisation`) VALUES (0,'$id_historique_points','$points_rule')";
+                $result = $connect->query($query);
+
+                // select the id recently added to table
+                $query = "SELECT id_cadre_depense_points FROM cadre_depense_points WHERE id_historique_points='$id_historique_points' AND motif_utilisation='$points_rule'";
+                $result = $connect->query($query);
+                $id_cadre_depense_points = $result->fetch_all(MYSQLI_ASSOC);
+                $id_cadre_depense_points = $id_cadre_depense_points[0]['id_cadre_depense_points'];
+
+                // update the foreign key 'id_cadre_depense_points' in the point section
+                $query = "UPDATE `points` SET `id_cadre_depense_points`='$id_cadre_depense_points' WHERE id_points='$points_id'";
+                $result = $connect->query($query);
+                
+            }
+            die();
+        }
+    }
+
+    die();
+
     $total_price = $_POST['total_price'];
-    $points_amount = ceil($total_price / 10);
+    $points_amount = $total_price;
     $exp_date = date('Y-m-d', strtotime('+1 year'));
 
     $query = "INSERT INTO points (`id_points`, `id_client`, `nb_points`, `exp_date`) VALUES (0,'$id_client','$points_amount','$exp_date')";
