@@ -61,6 +61,8 @@
     $points = $result->fetch_all(MYSQLI_ASSOC);
 
 
+    // for later
+    $code_commande = $command['numero'];
     ?>
 
 </head>
@@ -69,7 +71,7 @@
 <div class="page">
     
     <div class="cont-header">
-        <h1>Commande : <?= $command['numero'] ?></h1>
+        <h1>Commande : <?= $code_commande ?></h1>
         <a href="search_commands.php" class="menu">
             Retour à la recherche
         </a>
@@ -77,6 +79,7 @@
 
     <form action="../php/update_command_handler.php" method="post">
     <input type="hidden" name="id_commande" value="<?= $id_commande ?>">
+    <input type="hidden" name="code_commande" value="<?= $code_commande ?>">
         <div class="main-form">
 
             <!-- Client -->
@@ -424,8 +427,7 @@
 
         <div class="cont-btns">
             <button type="submit" formaction="../php/delete_command_handler.php" class="delete-command-btn">Supprimer la commande</button>
-            <!-- <button type="submit" formaction="../php/invoice_handler.php" class="invoice-btn">Générer une facture</button> -->
-            <button type="button" class="invoice-btn">Générer une facture</button>
+            <button type="submit" formaction="../php/invoice_handler.php" class="invoice-btn">Générer une facture</button>
         </div>
 
         <div class="cont-btns">

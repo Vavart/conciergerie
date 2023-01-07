@@ -1,0 +1,112 @@
+body {
+    background: #fff;
+    color: #222;
+}
+
+h1 {color: #222;}
+h2 {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 35px;
+}
+
+.cont-infos-cmd-client {
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li {
+    margin-top: 5px;
+    font-weight: 300;
+}
+
+.main-table-cmd {
+    margin-top: 30px;
+    width: 100%;
+}
+
+table {
+
+    border: 1px solid #111;
+}
+
+
+thead tr, tbody tr {
+    margin: 0;
+    padding: 7px 24px;
+    background: #fff;
+    /* Avoid cursor pointer on table rows */
+    cursor: auto;
+}
+
+tbody tr:first-child {
+    margin-top: 20px;
+}
+.thead {
+    background: rgb(207, 207, 207);
+    font-weight: 400;
+    border: 1px solid #111;
+}
+
+tbody td {
+    padding: 7px 5px;
+}
+
+thead th:nth-child(1), td:nth-child(1) {
+    flex-basis: 10%;
+}
+thead th:nth-child(2), td:nth-child(2) {
+    flex-basis: 50%;
+}
+thead th:nth-child(3), td:nth-child(3) {
+    flex-basis: 10%;
+}
+thead th:nth-child(4), td:nth-child(4) {
+    flex-basis: 15%;
+}
+thead th:nth-child(5), td:nth-child(5) {
+    flex-basis: 15%;
+}
+
+.payment-fees {
+    width: 100%;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.fees {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #111;
+}
+
+.fee-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #111;
+}
+
+.fee-item:last-child {
+    border: none; 
+}
+
+.fee-item .right, .fee-item .left {
+    height: 100%;
+    padding: 12px 24px 12px 5px;
+    flex-basis: 50%;
+}
+
+.fee-item .right {
+    text-align: right;
+}

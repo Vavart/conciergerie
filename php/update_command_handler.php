@@ -183,10 +183,17 @@
                 $result = $connect->query($query);
             } 
             
-            // If not : insert
+            // If not : insert if the product is not in the history linked to the command
             else {
-                $query = "INSERT INTO historique (`id_commande`, `id_produit`, `quantity`, `sold_price`) VALUES ('$id_commande','$product_id','$product_quantity','$product_sold_price')";
+
+                $query = "SELECT id_produit FROM historique WHERE id_commande='$id_commande' AND id_produit='$product_id'";
                 $result = $connect->query($query);
+                $result = $result->fetch_all(MYSQLI_ASSOC);
+
+                if (empty($result)) {
+                    $query = "INSERT INTO historique (`id_commande`, `id_produit`, `quantity`, `sold_price`) VALUES ('$id_commande','$product_id','$product_quantity','$product_sold_price')";
+                    $result = $connect->query($query);
+                }
             }
         }
     }
@@ -242,6 +249,16 @@
         $result = $connect->query($query);
     }
 
+    // Update the date of modification of the invoice linked to this command if there is one
+    $query = "SELECT id_facture FROM facture WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+
+    if (!empty($result)) {
+        $id_facture = $result[0]['id_facture'];
+        $query = "UPDATE `facture` SET `facture_date_maj`=curdate() WHERE id_facture='$id_facture'";
+        $result = $connect->query($query);
+    }
 
     header('Location: ../pages/command_sheet.php?id='.$id_commande);
     exit();
