@@ -21,6 +21,9 @@
     <script src="../js/command_storage.js" defer></script>
     <script src="../js/add_payment.js" defer></script>
     <script src="../js/command_recap.js" defer></script>
+    <!-- Html2Pdf for the invoice -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="../js/invoice_pdf.js" defer></script>
 
     <!-- PHP -->
     <?php
@@ -421,7 +424,8 @@
 
         <div class="cont-btns">
             <button type="submit" formaction="../php/delete_command_handler.php" class="delete-command-btn">Supprimer la commande</button>
-            <button type="submit" formaction="../php/invoice_handler.php" class="invoice-btn">Générer une facture</button>
+            <!-- <button type="submit" formaction="../php/invoice_handler.php" class="invoice-btn">Générer une facture</button> -->
+            <button type="button" class="invoice-btn">Générer une facture</button>
         </div>
 
         <div class="cont-btns">
