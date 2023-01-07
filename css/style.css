@@ -574,15 +574,24 @@ tr {
   display: flex;
   justify-content: center;
   align-items: center;
-  justify-content: space-between;
   margin: 12px auto;
+}
+tr td {
+  flex-basis: 20%;
 }
 
 tbody tr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #AD987D;
   border-radius: 5px;
   padding: 12px 24px;
   cursor: pointer;
+}
+
+th {
+  flex-basis: 20%;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -12,17 +12,28 @@
     text-align: center;
 }
 
+
+
 tr {
     @include flex-center;
-    justify-content: space-between;
     margin: 12px auto;
+
+    td {
+        flex-basis: 20%;
+    }
+
 }
 
 tbody {
     tr {
+        @include flex-center;
         background: $light-brown;
         border-radius: 5px;
         padding: 12px 24px;
         cursor: pointer;
     }
+}
+
+th {
+    flex-basis: 20%;
 }

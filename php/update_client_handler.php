@@ -128,7 +128,7 @@
     }
 
     // Update client's membership
-    $query = "UPDATE client SET membership='$membership'";
+    $query = "UPDATE client SET membership='$membership' WHERE id_client='$id_client'";
     $result = $connect->query($query);
 
     header('Location: ../pages/client.php?id='.$code);
