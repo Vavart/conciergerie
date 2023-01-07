@@ -192,6 +192,30 @@
                             <input type="text" name="membership" class="locked" readonly value="<?= $client['membership'] ?>">
                         </div>
                     </div>
+
+                    <!-- Ultimate class -->
+                    <div class="sec">
+                        <label for="membership" class="subtitle">Surclassement ultimate :</label>
+
+                        <?php 
+                        
+                        // Check if the client is already an ultimate member
+                        if ($client['is_ultimate'] == 1) { ?>
+
+                            <div class="cont-input checkbox">
+                                <input type="checkbox" name="is_ultimate" value="ultimate" checked>
+                            </div>
+
+                        <?php } else { ?>
+
+                            <div class="cont-input checkbox">
+                                <input type="checkbox" name="is_ultimate" value="ultimate">
+                            </div>
+
+                        <?php }
+                            
+                        ?>
+                    </div>
                 </div>
 
 

@@ -2,32 +2,6 @@
 
     include "sql_connection.php";
 
-    /*
-    
-    Points conciergerie : 
-    - add command : vérifier si le client a des points et les afficher en-dessous de ses informations
-    - command 
-
-    ---> Gestion backend 
-    - Une commande génère des points
-    - La fiche client peut se voir ajouter des points manuellement
-
-    Les points s'ajoutent "comme avant" après chaque commande
-
-    Le changement se passe pendant les commandes 
-    - Possibilité d'ajout d'une utilisation de points
-    Dans ce cas : si c'est défini, alors on ajoute un nouvel historique de l'utilisation des points
-
-    Donc 3 cas pour le add command :
-    - Historique existe et utilisation de points
-    - Historique n'existe pas et utilisation de points
-    - Pas d'utilisation de points
-    Pour le update command : 
-    Les 3 mêmes cas mais surtout, l'update des points en fonction des articles précédemment commandé
-    Les points sont générés pour les réglements faits !
-    (car ils sont inchangés)
-
-    */
 
     // Gathering the fields values
     $id_client = $_POST['numero']; // useful to update
@@ -39,11 +13,16 @@
     $mail = $_POST['mail'];
     $facebook = $_POST['facebook'];
     $instagram = $_POST['instagram'];
-    $membership = $_POST['membership'];
 
+    // Check if the member is up-classed to ultimate
+    if (isset($_POST['is_ultimate'])) {
+        $is_ultimate = 1;
+    } else {
+        $is_ultimate = 0;
+    }
     
     // Updating in the database
-    $query = "UPDATE client SET `name`='$prenom',`surname`='$nom',`postal_address`='$address',`facebook_username`='$facebook',`instagram_username`='$instagram',`email`='$mail',`membership`='$membership',`next_discount`=0 WHERE id_client='$id_client'";
+    $query = "UPDATE client SET `name`='$prenom',`surname`='$nom',`postal_address`='$address',`facebook_username`='$facebook',`instagram_username`='$instagram',`email`='$mail',`is_ultimate`='$is_ultimate',`next_discount`=0 WHERE id_client='$id_client'";
 
     $result = $connect->query($query);
 

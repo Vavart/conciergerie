@@ -5,10 +5,123 @@
     // -- Gathering the fields values
 
     // Client
-    // $id_client = $_POST['numero'];
+    $id_client = $_POST['numero'];
+
+    // Id_commande
+    $id_commande = $_POST['id_commande'];
+
+    // variable to know if the client used points during the command (so he won't earn points for this command)
+    $is_client_used_points = false;
+
+    // Check if any points were used in the command
+    if (isset($_POST['how_many_unspent_points'])) {
+        $how_many_unspent_points = $_POST['how_many_unspent_points'];
+
+        for ($i = 0; $i < $how_many_unspent_points; $i++) {
+
+            $key_use_points = "use_points_".($i+1);
+
+            // if the checkbox is checked get id and reason
+            if (isset($_POST[$key_use_points])) {
+
+                $is_client_used_points = true;
+
+                $key_points_id = "id_points_unspent_".($i+1);
+                $key_points_rule = "point_use_rule_".($i+1);
+
+                $points_id = $_POST[$key_points_id];
+                $points_rule = $_POST[$key_points_rule];
+
+                // check if the client has an history, if not create one
+                $query = "SELECT * FROM historique_points WHERE id_client='$id_client'";
+                $result = $connect->query($query);
+                $result = $result->fetch_all(MYSQLI_ASSOC);
+
+                // If the client doesn't have an history, create one
+                if (count($result) === 0) {
+                    $query = "INSERT INTO historique_points (`id_historique_points`, `id_client`) VALUES (0,'$id_client')";
+                    $result = $connect->query($query);
+                }
+
+                // Get the id of the history of the client
+                $query = "SELECT id_historique_points FROM historique_points WHERE id_client='$id_client'";
+                $result = $connect->query($query);
+                $id_historique_points = $result->fetch_all(MYSQLI_ASSOC);
+                $id_historique_points = $id_historique_points[0]['id_historique_points'];
+
+                // create a cadre_depense_points linked to this history with the rule
+                $query = "INSERT INTO cadre_depense_points (`id_cadre_depense_points`, `id_historique_points`, `motif_utilisation`) VALUES (0,'$id_historique_points','$points_rule')";
+                $result = $connect->query($query);
+
+                // select the id recently added to table
+                $query = "SELECT id_cadre_depense_points FROM cadre_depense_points WHERE id_historique_points='$id_historique_points' AND motif_utilisation='$points_rule'";
+                $result = $connect->query($query);
+                $id_cadre_depense_points = $result->fetch_all(MYSQLI_ASSOC);
+                $id_cadre_depense_points = $id_cadre_depense_points[0]['id_cadre_depense_points'];
+
+                // update the foreign key 'id_cadre_depense_points' in the point section
+                $query = "UPDATE `points` SET `id_cadre_depense_points`='$id_cadre_depense_points' WHERE id_points='$points_id'";
+                $result = $connect->query($query);
+                
+            }
+        }
+    }
+
+    // If the client used points in the command, he doesn't earn points
+    if (!$is_client_used_points) {
+
+        // It needs to be the rest_to_pay before less the rest_to_pay now
+        // check if it's > 0 to insert (otherwise it's useless to add 0 points)
+        
+        // Rest_to_pay before = total_price  LESS all payment amounts linked to this command
+        $total_price = $_POST['total_price'];
+
+        $query = "SELECT * FROM liste_paiement_commande NATURAL JOIN paiement WHERE id_commande='$id_commande'";
+        $result = $connect->query($query);
+        $liste_paiement_commande = $result->fetch_all(MYSQLI_ASSOC);
+        
+        $total_payment_amount = 0;
+        for ($i = 0; $i < count($liste_paiement_commande); $i++) {
+            $payment_amount = $liste_paiement_commande[$i]['montant'];   
+            $total_payment_amount += $payment_amount;
+        }
+
+        $rest_to_pay_before = $total_price - $total_payment_amount;
+        
+        $rest_to_pay = $_POST['rest_to_pay'];
+        $points_amount = $rest_to_pay_before - $rest_to_pay;
+
+        // if > 0 we add points
+        if ($points_amount > 0) {       
+            $exp_date = date('Y-m-d', strtotime('+1 year'));
+        
+            $query = "INSERT INTO points (`id_points`, `id_client`, `nb_points`, `exp_date`) VALUES (0,'$id_client','$points_amount','$exp_date')";
+            $result = $connect->query($query);
+        }
+    }
+
+
+    // Update the membership of the client 
+    // Select the new sum of unspent points
+    $query = "SELECT SUM(nb_points) FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
+    $result = $connect->query($query);
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $sum_points_unspent = $result[0]['SUM(nb_points)'];
+
+    if ($sum_points_unspent < 300) {
+        $membership = "Silver";
+    } else if ($sum_points_unspent < 700) {
+        $membership = "Gold";
+    } else {
+        $membership = "Platinum";
+    }
+
+    // Update client's membership
+    $query = "UPDATE client SET membership='$membership'";
+    $result = $connect->query($query);
 
     // Command
-    $id_commande = $_POST['id_commande'];
+    // $id_commande = $_POST['id_commande']; already on top of the page
     $command_status = $_POST['status'];
     $command_delivery_price = $_POST['delivery_fee'];
     $command_service_price = $_POST['service_fee'];
@@ -23,6 +136,7 @@
     $query = "SELECT * FROM historique WHERE id_commande='$id_commande'";
     $result = $connect->query($query);
     $previous_products = $result->fetch_all(MYSQLI_ASSOC);
+    $how_many_products = $_POST['how_many_products']; // new products
 
     // Delete the products who were before and not now 
     for ($i = 0; $i < count($previous_products); $i++) {
@@ -47,7 +161,6 @@
         }
     }
 
-    $how_many_products = $_POST['how_many_products'];
     for ($i = 0; $i < $how_many_products; $i++) {
 
         // Get the useful info of the product (id, sold_price, quantity)

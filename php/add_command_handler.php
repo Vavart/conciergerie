@@ -20,8 +20,11 @@
         exit();
     }
 
-    // Create points and link it to the client
+    
     $id_client = $_POST['numero'];
+
+    // variable to know if the client used points during the command (so he won't earn points for this command)
+    $is_client_used_points = false;
 
     // Check if any points were used in the command
     if (isset($_POST['how_many_unspent_points'])) {
@@ -33,6 +36,8 @@
 
             // if the checkbox is checked get id and reason
             if (isset($_POST[$key_use_points])) {
+
+                $is_client_used_points = true;
 
                 $key_points_id = "id_points_unspent_".($i+1);
                 $key_points_rule = "point_use_rule_".($i+1);
@@ -72,25 +77,50 @@
                 $result = $connect->query($query);
                 
             }
-            die();
         }
     }
 
-    die();
+    // If the client used points in the command, he doesn't earn points
+    if (!$is_client_used_points) {
+        $total_price = $_POST['total_price'];
+        $rest_to_pay = $_POST['rest_to_pay'];
+        $points_amount = $total_price - $rest_to_pay;
+        $exp_date = date('Y-m-d', strtotime('+1 year'));
+    
+        $query = "INSERT INTO points (`id_points`, `id_client`, `nb_points`, `exp_date`) VALUES (0,'$id_client','$points_amount','$exp_date')";
+        $result = $connect->query($query);
+    }
 
-    $total_price = $_POST['total_price'];
-    $points_amount = $total_price;
-    $exp_date = date('Y-m-d', strtotime('+1 year'));
 
-    $query = "INSERT INTO points (`id_points`, `id_client`, `nb_points`, `exp_date`) VALUES (0,'$id_client','$points_amount','$exp_date')";
+
+    // Update the membership of the client 
+    // Select the new sum of unspent points
+    $query = "SELECT SUM(nb_points) FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
+    $result = $connect->query($query);
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $sum_points_unspent = $result[0]['SUM(nb_points)'];
+
+    if ($sum_points_unspent < 300) {
+        $membership = "Silver";
+    } else if ($sum_points_unspent < 700) {
+        $membership = "Gold";
+    } else {
+        $membership = "Platinum";
+    }
+
+    // Update client's membership
+    $query = "UPDATE client SET membership='$membership'";
     $result = $connect->query($query);
 
-    // Create the command (with the points ref)
-    // Select the id of the points lately added
-    $query = "SELECT id_points FROM points WHERE id_client='$id_client' AND exp_date='$exp_date' AND nb_points='$points_amount'";
-    $result = $connect->query($query);
-    $id_points = $result->fetch_all(MYSQLI_ASSOC);
-    $id_points = $id_points[0]['id_points'];
+    $id_points = NULL;
+    if (!$is_client_used_points) {
+        // Create the command (with the points ref)
+        // Select the id of the points lately added
+        $query = "SELECT id_points FROM points WHERE id_client='$id_client' AND exp_date='$exp_date' AND nb_points='$points_amount'";
+        $result = $connect->query($query);
+        $id_points = $result->fetch_all(MYSQLI_ASSOC);
+        $id_points = $id_points[0]['id_points'];
+    }
 
     // create a code for the command
     $code_date = date("dmy"); // 311222
@@ -108,11 +138,17 @@
     $service_price = $_POST["service_fee"];
     $note = htmlspecialchars($_POST['command_note'], ENT_QUOTES);
 
-    $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$id_points','$code', curdate(), '$status','$delivery_price','$service_price','$note')";
+    if (!$is_client_used_points) {
+
+        $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$id_points','$code', curdate(), '$status','$delivery_price','$service_price','$note')";
+    } else {
+        $query = "INSERT INTO commande (`id_commande`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$code', curdate(), '$status','$delivery_price','$service_price','$note')";
+    }
+
     $result = $connect->query($query);
 
     // Get the id of the command lately recorded
-    $query = "SELECT id_commande FROM commande WHERE id_points='$id_points' AND cmd_date=curdate()";
+    $query = "SELECT id_commande FROM commande WHERE numero='$code'";
     $result = $connect->query($query);
     $id_commande = $result->fetch_all(MYSQLI_ASSOC);
     $id_commande = $id_commande[0]['id_commande'];

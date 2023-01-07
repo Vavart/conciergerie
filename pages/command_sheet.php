@@ -52,6 +52,12 @@
     $id_client = $result->fetch_all(MYSQLI_ASSOC);
     $id_client = $id_client[0]['id_client'];
     
+    // The unspent points of the client who ordered
+    $query = "SELECT * FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
+    $result = $connect->query($query);
+    $points = $result->fetch_all(MYSQLI_ASSOC);
+
+
     ?>
 
 </head>
@@ -103,6 +109,46 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Points of the client -->
+            <h2 class="sec-title">Points disponibles</h2>
+            <?php
+
+            $i = 0;
+            foreach($points as $point) { ?>
+
+                <div class="section">
+                    <div class="sec">
+                        <div class="cont-input">
+                            <label for="">Nombre de points</label>
+                            <input type="text" name="points_unspent_<?= $i ?>" id="" class="locked" readonly value="<?= $point['nb_points'] ?>">
+                        </div>
+                        <div class="cont-input">
+                            <label for="">Date d'expiration</label>
+                            <input type="date" name="exp_date_unspent_<?= $i ?>" class="locked" readonly value="<?= $point['exp_date'] ?>">
+                        </div>
+                    </div>
+
+                    <div class="sec">
+                        <div class="cont-input checkbox">
+                            <label for="">Utiliser pour la commande</label>
+                            <input type="checkbox" name="use_points_<?= $i ?>">
+                        </div>
+
+                        <div class="cont-input">
+                            <label for="">Règle d'utilisation</label>
+                            <input type="text" name="point_use_rule_<?= $i ?>" placeholder="20% de remise totale">
+                        </div>
+
+                        <input type="hidden" name="id_points_unspent_<?= $i ?>" value="<?= $point['id_points'] ?>">
+                    </div>
+                </div>
+
+            <?php $i++; } ?>
+
+            <!-- How many unspent points available -->
+            <input type="hidden" name="how_many_unspent_points" value="<?= count($points) ?>">
+            
             
             <!-- Products -->
             <h2 class="sec-title">Produits</h2>
@@ -110,7 +156,9 @@
             <div class="section product-section">
                 <!-- Products will be displayed here -->
                 <?php
-                
+                    // echo "<pre>";
+                    // print_r($rest_to_pay_before);
+                    // echo "</pre>";
                 $i = 0;
                 foreach($ids_article as $id_article) {
                     $id_article = $id_article['id_produit'];
