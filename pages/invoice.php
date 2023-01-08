@@ -178,7 +178,7 @@
         <div class="payment-fees">
             <div class="payment-info">
                 <ul>
-                    <li class="item-list">Promotion à appliquer au projet achat : <?= $client['next_discount'] ?>%</li>
+                    <li class="item-list">Promotion à appliquer au projet achat : <?= $client['next_discount'] ?>€</li>
                     <?php foreach($payments as $payment) { ?>
                         <li class="item-list">Dépôt <?= $payment['mode']." ".$payment['payment_date']." : ".$payment['montant']."€" ?></li>
                     <?php } ?>
@@ -191,7 +191,7 @@
                         <span>Montant de la commande</span>
                     </div>
                     <div class="right">
-                        <span>460,00€</span>
+                        <span><?= $total_price ?>€</span>
                     </div>
                 </div>
                 <div class="fee-item">

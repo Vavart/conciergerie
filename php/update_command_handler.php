@@ -128,9 +128,31 @@
     $command_note = htmlspecialchars($_POST['command_note'], ENT_QUOTES);
 
     // Update the dates according to the status
-    // ...
+    // Check if the date is not not null 
+    $query = "SELECT cmd_arrival_date, cmd_dispatched_date FROM commande WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $cmd_arrival_date = $result[0]['cmd_arrival_date'];
+    $cmd_dispatched_date = $result[0]['cmd_dispatched_date'];
+
+    if ($command_status == 'shipped' && $cmd_dispatched_date == "0000-00-00") {
+        $query = "UPDATE commande SET `status`='$command_status', `cmd_dispatched_date`=curdate(), `delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
+    }
     
-    $query = "UPDATE commande SET `status`='$command_status',`delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
+    else if ($command_status == 'arrived' || $command_status == 'delivered' || $command_status == 'done') {
+        
+        if ($cmd_dispatched_date != "0000-00-00" && $cmd_arrival_date == "0000-00-00") {
+            $query = "UPDATE commande SET `status`='$command_status', `cmd_arrival_date`=curdate(), `delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
+        }
+        
+        else if ($cmd_dispatched_date == "0000-00-00" && $cmd_arrival_date == "0000-00-00") {
+            $query = "UPDATE commande SET `status`='$command_status', `cmd_arrival_date`=curdate(), `cmd_dispatched_date`=curdate(), `delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
+
+        }
+    } else {
+        $query = "UPDATE commande SET `status`='$command_status',`delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
+    }
+
     $result = $connect->query($query);
 
     // Products

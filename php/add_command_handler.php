@@ -166,6 +166,31 @@
     $id_commande = $result->fetch_all(MYSQLI_ASSOC);
     $id_commande = $id_commande[0]['id_commande'];
 
+    // Update the dates according to the status
+    // Check if the date is not not null 
+    $query = "SELECT cmd_arrival_date, cmd_dispatched_date FROM commande WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+    $result = $result->fetch_all(MYSQLI_ASSOC);
+    $cmd_arrival_date = $result[0]['cmd_arrival_date'];
+    $cmd_dispatched_date = $result[0]['cmd_dispatched_date'];
+
+    if ($status == 'shipped' && $cmd_dispatched_date == "0000-00-00") {
+        $query = "UPDATE commande SET `cmd_dispatched_date`=curdate() WHERE id_commande='$id_commande'";
+    }
+    
+    else if ($status == 'arrived' || $status == 'delivered' || $status == 'done') {
+        
+        if ($cmd_dispatched_date != "0000-00-00" && $cmd_arrival_date == "0000-00-00") {
+            $query = "UPDATE commande SET `cmd_arrival_date`=curdate() WHERE id_commande='$id_commande'";
+        }
+        
+        else if ($cmd_dispatched_date == "0000-00-00" && $cmd_arrival_date == "0000-00-00") {
+            $query = "UPDATE commande SET `cmd_arrival_date`=curdate(), `cmd_dispatched_date`=curdate() WHERE id_commande='$id_commande'";
+        }
+    }
+
+    $result = $connect->query($query);
+
     // Add products
     $how_many_products = $_POST['how_many_products'];
     for ($i = 0; $i < $how_many_products; $i++) {
@@ -180,10 +205,23 @@
 
         $query = "INSERT INTO historique (`id_commande`, `id_produit`, `quantity`, `sold_price`) VALUES ('$id_commande','$product_id','$product_quantity','$product_sold_price')";
         $result = $connect->query($query);
-    }
 
-    // Decrease the number of articles there are in stock if it's the case
-    // ...
+        // Decrease the number of articles there are in stock if it's the case
+        $query = "SELECT nb_dispo FROM produit WHERE id_produit='$product_id'";
+        $result = $connect->query($query);
+        $nb_dispo = $result->fetch_all(MYSQLI_ASSOC);
+        $nb_dispo = $nb_dispo[0]['nb_dispo'];
+
+        if ($nb_dispo - $product_quantity < 0) {
+            $nb_dispo = 0; // in order to not go below 0
+        } else {
+            $nb_dispo -= $product_quantity;
+        }
+
+        // Update in product table
+        $query = "UPDATE produit SET nb_dispo='$nb_dispo' WHERE id_produit='$product_id'";
+        $result = $connect->query($query);
+    }
 
     // Create all payment methods and amount
     $how_many_payments = $_POST['how_many_payments'];
