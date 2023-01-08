@@ -7,14 +7,17 @@ allClients.forEach(client => {
         const client_code = client.getAttribute("data-code");
         const client_name = client.getAttribute("data-name");
         const client_mail = client.getAttribute("data-mail");
+        let client_discount = client.getAttribute("data-discount");
+        if (client_discount == null) client_discount = 0;
 
         sessionStorage.setItem("id_client", client_id);
         sessionStorage.setItem("code_client", client_code);
         sessionStorage.setItem("client_name", client_name);
         sessionStorage.setItem("client_mail", client_mail);
+        sessionStorage.setItem("client_discount", client_discount);
+        console.log(client_discount);
 
         const points_info = client.getAttribute("data-points");
-        console.log(points_info);
 
         // Store an array with 2 objects
         const points_info_to_array = points_info.split(",");

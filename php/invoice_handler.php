@@ -21,7 +21,7 @@
         $invoice_code = str_replace("C", "F", $code);
         $code = $date."-".$cmd."-".$invoice_code;
 
-        $query = "INSERT INTO facture (`id_facture`, `id_commande`, `facture_date`, `numero`) VALUES (0,'$id_commande',curdate(),'$code')";
+        $query = "INSERT INTO facture (`id_facture`, `id_commande`, `facture_date`, `facture_date_maj`, `numero`) VALUES (0,'$id_commande',curdate(), curdate(), '$code')";
         $result = $connect->query($query);
 
         // get the id of what we created

@@ -3,12 +3,14 @@ const numeroClient = document.getElementsByName("numero")[0];
 const codeClient = document.getElementsByName("code")[0];
 const nameClient = document.getElementsByName("name_surname")[0];
 const mailClient = document.getElementsByName("mail")[0];
+const discountClient = document.getElementsByName("next_discount")[0];
 
 // Client storage value
 const client_id = sessionStorage.getItem("id_client");
 const client_code = sessionStorage.getItem("code_client");
 const client_name = sessionStorage.getItem("client_name");
 const client_mail = sessionStorage.getItem("client_mail");
+const client_discount = sessionStorage.getItem("client_discount")
 const client_points = JSON.parse(sessionStorage.getItem("client_points"));
 
 // Get the point section
@@ -28,6 +30,7 @@ if (window.location.pathname.includes("add_command.php")) {
     codeClient.value = client_code;
     nameClient.value = client_name;
     mailClient.value = client_mail;
+    discountClient.value = client_discount;
 
     if (client_points != null && client_points.length != 0) {
   

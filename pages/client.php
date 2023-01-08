@@ -31,6 +31,11 @@
 
     $id_client = $client['id_client'];
 
+    // Delete all expired points
+    $curdate = date('Y-m-d');
+    $query = "DELETE FROM points WHERE id_client='$id_client' AND exp_date < curdate()";
+    $result = $connect->query($query);
+
     // The points of the clients that are not spent
     $query = "SELECT * FROM points WHERE id_client='$id_client' AND id_cadre_depense_points IS NULL";
     $result = $connect->query($query);
@@ -182,6 +187,14 @@
 
                             <!-- Hidden input to know how much phone numbers there are -->
                             <input type="hidden" name="how_many_phone_numbers" value=<?= count($phone_numbers) ?>>
+                        </div>
+                    </div>
+
+
+                    <div class="sec">
+                        <div class="cont-input">
+                            <label for="">Réduction au prochain achat (en €)</label>
+                            <input type="number" name="next_discount" placeholder="30" required value="<?= $client['next_discount'] ?>">
                         </div>
                     </div>
 

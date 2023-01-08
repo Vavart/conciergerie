@@ -113,6 +113,7 @@
                         <label for="mail">Mail</label>
                         <input type="email" name="mail" id="mail" class="locked" readonly value="<?= $client['email'] ?>">
                     </div>
+                    <input type="hidden" name="next_discount" value="<?= $command['promotion_applied'] ?>">
                 </div>
             </div>
 

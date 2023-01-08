@@ -7,6 +7,9 @@ function computeCosts() {
   // Listen to delivery and service price
   const deliveryPriceInput = document.getElementsByName("delivery_fee")[0];
   const servicePriceInput = document.getElementsByName("service_fee")[0];
+  // + the possible reduction of the client 
+  const clientDicsountInput = document.getElementsByName("next_discount")[0];
+  const clientDicsount =  Number(clientDicsountInput.value);
 
   const totalProducts = sessionStorage.getItem("nb_products");
 
@@ -52,7 +55,7 @@ function computeCosts() {
     price +=  Number(servicePriceInput.value);
   } 
 
-  let rest_to_pay = price - allPaymentAmounts;
+  let rest_to_pay = price - allPaymentAmounts - clientDicsount;
 
   totalPriceInput.value = price;
   restToPay.value = rest_to_pay;

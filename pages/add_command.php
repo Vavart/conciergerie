@@ -17,13 +17,6 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
 
-    <!-- PHP-->
-    <?php
-    
-    
-
-    ?>
-
     <!-- JS -->
     <script src="../js/command_storage.js" defer></script>
     <script src="../js/add_payment.js" defer></script>
@@ -68,6 +61,12 @@
                     <div class="cont-input">
                         <label for="mail">Mail</label>
                         <input type="email" name="mail" id="mail" class="locked" readonly>
+                    </div>
+                </div>
+                <div class="sec">
+                    <div class="cont-input">
+                        <label for="">Réduction appliquée (en €)</label>
+                        <input type="number" name="next_discount" class="locked" readonly>
                     </div>
                 </div>
 

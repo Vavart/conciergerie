@@ -110,3 +110,7 @@ thead th:nth-child(5), td:nth-child(5) {
 .fee-item .right {
     text-align: right;
 }
+
+.invoice-amount {
+    font-weight: 600;
+}

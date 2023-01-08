@@ -87,7 +87,7 @@
                         }
                       
                         ?>
-                        <tr data-code="<?= $client['code'] ?>" data-id="<?= $client['id_client'] ?>" data-name="<?= $client['name']." ".$client['surname'] ?>" data-mail="<?= $client['email'] ?>" data-points=<?= $client_unspent_points ?>>
+                        <tr data-code="<?= $client['code'] ?>" data-id="<?= $client['id_client'] ?>" data-name="<?= $client['name']." ".$client['surname'] ?>" data-mail="<?= $client['email'] ?>" data-points=<?= $client_unspent_points ?> data-discount="<?= $client['next_discount'] ?>">
                             <td><?= $client['id_client'] ?></td>
                             <td><?= $client['code'] ?></td>
                             <td><?= $client['name']." ".$client['surname'] ?></td>

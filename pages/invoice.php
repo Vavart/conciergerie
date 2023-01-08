@@ -32,7 +32,7 @@
 
     // Get the command linked to it
     $id_commande = $facture['id_commande'];
-    $query = "SELECT numero, cmd_date, delivery_price, service_price FROM commande WHERE id_commande='$id_commande'";
+    $query = "SELECT numero, cmd_date, delivery_price, service_price, promotion_applied FROM commande WHERE id_commande='$id_commande'";
     $result = $connect->query($query);
     $result = $result->fetch_all(MYSQLI_ASSOC);
     $commande = $result[0]; // same note as invoice
@@ -48,9 +48,21 @@
     $payments = $result->fetch_all(MYSQLI_ASSOC);
 
     // Compute the total price of the command, the total amount of payment and the rest_to_pay
-    $total_price = 1;
-    $total_payment_amount = 1;
 
+    $total_price = 0;
+    $total_payment_amount = 0;
+
+    for ($o = 0; $o < count($articles); $o++) {
+        $price = $articles[$o]['sold_price'] * $articles[$o]['quantity'];
+        $total_price += $price;
+    }
+    for ($o = 0; $o < count($payments); $o++) {
+        $amount = $payments[$o]['montant'];
+        $total_payment_amount += $amount;
+    }
+
+    $rest_to_pay = $total_price - $total_payment_amount - $commande['promotion_applied'];
+    
     // echo "<pre>";
     // print_r($payments);
     // echo "</pre>";
@@ -187,7 +199,7 @@
                         <span>Frais de service</span>
                     </div>
                     <div class="right">
-                        <span><?= $command['service_price'] ?>€</span>
+                        <span><?= $commande['service_price'] ?>€</span>
                     </div>
                 </div>
                 <div class="fee-item">
@@ -195,7 +207,7 @@
                         <span>Frais de livraison</span>
                     </div>
                     <div class="right">
-                        <span><?= $command['delivery_price'] ?>€</span>
+                        <span><?= $commande['delivery_price'] ?>€</span>
                     </div>
                 </div>
                 <div class="fee-item">
@@ -203,7 +215,11 @@
                         <span>Promotion / Remise</span>
                     </div>
                     <div class="right">
-                        <span><?= $client['next_discount']*$total_price ?>€</span>
+                        <?php 
+                            $discount = 0;
+                            if (isset($commande['promotion_applied'])) $discount = $commande['promotion_applied'];
+                        ?>
+                        <span><?= $discount ?>€</span>
                     </div>
                 </div>
                 <div class="fee-item">
@@ -214,12 +230,12 @@
                         <span><?= $total_payment_amount ?>€</span>
                     </div>
                 </div>
-                <div class="fee-item">
+                <div class="fee-item invoice-amount">
                     <div class="left">
                         <span>Montant de la facture</span>
                     </div>
                     <div class="right">
-                        <span>346,00€</span>
+                        <span><?= $rest_to_pay ?>€</span>
                     </div>
                 </div>
             </div>

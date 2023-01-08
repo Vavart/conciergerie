@@ -13,6 +13,7 @@
     $mail = $_POST['mail'];
     $facebook = $_POST['facebook'];
     $instagram = $_POST['instagram'];
+    $next_discount = $_POST['next_discount'];
 
     // Check if the member is up-classed to ultimate
     if (isset($_POST['is_ultimate'])) {
@@ -22,7 +23,7 @@
     }
     
     // Updating in the database
-    $query = "UPDATE client SET `name`='$prenom',`surname`='$nom',`postal_address`='$address',`facebook_username`='$facebook',`instagram_username`='$instagram',`email`='$mail',`is_ultimate`='$is_ultimate',`next_discount`=0 WHERE id_client='$id_client'";
+    $query = "UPDATE client SET `name`='$prenom',`surname`='$nom',`postal_address`='$address',`facebook_username`='$facebook',`instagram_username`='$instagram',`email`='$mail',`is_ultimate`='$is_ultimate',`next_discount`='$next_discount' WHERE id_client='$id_client'";
 
     $result = $connect->query($query);
 

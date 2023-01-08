@@ -108,9 +108,22 @@
         $membership = "Platinum";
     }
 
-    // Update client's membership
-    $query = "UPDATE client SET membership='$membership'";
+    // Save the promotion of the client before updating it back to 0
+    $query = "SELECT next_discount FROM client WHERE id_client='$id_client'";
     $result = $connect->query($query);
+    $discount_client = $result->fetch_all(MYSQLI_ASSOC);
+    $discount_client = $discount_client[0]['next_discount'];
+
+    // echo "<pre>";
+    // echo $discount_client;
+    // echo "</pre>";
+
+    // die();
+
+    // Update client's membership and set back promotion to 0
+    $query = "UPDATE client SET membership='$membership', next_discount=0 WHERE id_client='$id_client'";
+    $result = $connect->query($query);
+
 
     $id_points = NULL;
     if (!$is_client_used_points) {
@@ -140,9 +153,9 @@
 
     if (!$is_client_used_points) {
 
-        $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$id_points','$code', curdate(), '$status','$delivery_price','$service_price','$note')";
+        $query = "INSERT INTO commande (`id_commande`, `id_points`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `promotion_applied`, `note`) VALUES (0,'$id_points','$code', curdate(), '$status','$delivery_price','$service_price', '$discount_client', '$note')";
     } else {
-        $query = "INSERT INTO commande (`id_commande`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `note`) VALUES (0,'$code', curdate(), '$status','$delivery_price','$service_price','$note')";
+        $query = "INSERT INTO commande (`id_commande`, `numero`, `cmd_date`, `status`, `delivery_price`, `service_price`, `promotion_applied`, `note`) VALUES (0,'$code', curdate(), '$status','$delivery_price','$service_price', '$discount_client', '$note')";
     }
 
     $result = $connect->query($query);
