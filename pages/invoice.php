@@ -138,8 +138,6 @@
                             <td><?= $i ?></td>
                             <?php
                                 $is_on_sale = $article['unit_price'] - $article['sold_price'] > 0;
-                                echo "on sale";
-                                echo $is_on_sale;
 
                                 if ($is_on_sale) { ?>
                                     <td><?= $article['product_name']." : ".$article['unit_price']."€ -->".$article['sold_price']."€" ?></td>
@@ -160,9 +158,9 @@
 
                             <?php
                                 if ($is_on_sale) { ?>
-                                    <td><?= $article['quantity']*$article['unit_price']."€" ?></td>
-                                <?php } else { ?>
                                     <td><?= $article['quantity']*$article['sold_price']."€" ?></td>
+                                <?php } else { ?>
+                                    <td><?= $article['quantity']*$article['unit_price']."€" ?></td>
                                <?php }
                             ?>
 
