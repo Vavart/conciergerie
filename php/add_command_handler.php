@@ -4,19 +4,19 @@
 
     // check if there is a client
     if (!isset($_POST['numero']) || $_POST['numero'] == "") {
-        header('Location: ../pages/index.html?msg=error'); // error
+        header('Location: ../pages/index.php?msg=error'); // error
         exit();
     }
     
     // check if there is at least product
     if (!isset($_POST['product_name_1']) || $_POST['product_name_1'] == "") {
-        header('Location: ../pages/index.html?msg=error'); // error
+        header('Location: ../pages/index.php?msg=error'); // error
         exit();
     }
 
     // check if there is a payment
     if (!isset($_POST['payment_amount_1']) || $_POST['payment_amount_1'] == "") {
-        header('Location: ../pages/index.html?msg=error'); // error
+        header('Location: ../pages/index.php?msg=error'); // error
         exit();
     }
 
@@ -181,6 +181,9 @@
         $query = "INSERT INTO historique (`id_commande`, `id_produit`, `quantity`, `sold_price`) VALUES ('$id_commande','$product_id','$product_quantity','$product_sold_price')";
         $result = $connect->query($query);
     }
+
+    // Decrease the number of articles there are in stock if it's the case
+    // ...
 
     // Create all payment methods and amount
     $how_many_payments = $_POST['how_many_payments'];

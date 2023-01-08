@@ -38,7 +38,7 @@
         <div class="cont-header">
             <h1>Rechercher un client</h1>
             <p class="caption">Cliquez sur le client pour voir plus de détails à son sujet</p>
-            <a href="index.html" class="menu">
+            <a href="index.php" class="menu">
                 Retour à l'accueil
             </a>
         </div>

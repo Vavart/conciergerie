@@ -28,7 +28,16 @@
     $query = "SELECT * FROM commande";
     $result = $connect->query($query);
     $commandes = $result->fetch_all(MYSQLI_ASSOC);
-    
+
+    $command_status_matching = array(
+        'to_buy' => 'À acheter',
+        'bought' => 'Achetée',
+        'packed' => 'Emballée',
+        'shipped' => 'Expédiée',
+        'arrived' => 'Arrivée',
+        'delivered' => 'Livrée',
+        'done' => 'Terminée'
+    );   
     ?>
 
 </head>
@@ -39,7 +48,7 @@
         <div class="cont-header">
             <h1>Rechercher une commande</h1>
             <p class="caption">Cliquez sur la commande pour voir plus de détails à son sujet</p>
-            <a href="index.html" class="menu">
+            <a href="index.php" class="menu">
                 Retour à l'accueil
             </a>
         </div>
@@ -182,7 +191,7 @@
                             <td><?= $client_code ?></td>
                             <td><?= $client_name." ".$client_surname ?></td>
                             <td><?= $rest_to_pay ?>€</td>
-                            <td><?= $commande['status'] ?></td>
+                            <td><?= $command_status_matching[$commande['status']] ?></td>
                         </tr>
 
                     <?php }

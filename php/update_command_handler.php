@@ -127,6 +127,9 @@
     $command_service_price = $_POST['service_fee'];
     $command_note = htmlspecialchars($_POST['command_note'], ENT_QUOTES);
 
+    // Update the dates according to the status
+    // ...
+    
     $query = "UPDATE commande SET `status`='$command_status',`delivery_price`='$command_delivery_price',`service_price`='$command_service_price',`note`='$command_note' WHERE id_commande='$id_commande'";
     $result = $connect->query($query);
 
@@ -198,8 +201,6 @@
         }
     }
     
-
-
     // Payment amount & payment method
     // Create all payment methods and amount
     $how_many_payments = $_POST['how_many_payments'];

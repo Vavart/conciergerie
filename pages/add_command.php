@@ -22,6 +22,32 @@
     <script src="../js/add_payment.js" defer></script>
     <script src="../js/command_recap.js" defer></script>
 
+    <!-- PHP -->
+    <?php
+        $command_status_matching = array(
+            'to_buy' => 'À acheter',
+            'bought' => 'Achetée',
+            'packed' => 'Emballée',
+            'shipped' => 'Expédiée',
+            'arrived' => 'Arrivée',
+            'delivered' => 'Livrée',
+            'done' => 'Terminée'
+        );
+
+        $article_status_matching = array(
+            'stock' => 'En stock',
+            'available' => 'Disponible',
+            'not_available' => 'Non disponible',
+            'out_of_stock' => 'En rupture de stock',
+            'gift' => 'Cadeau',
+            'packed' => 'Emballé',
+            'dispatched' => 'Expédié',
+            'arrived' => 'Arrivé',
+            'delivered' => 'Livré',
+            'other' => 'Autre'
+        );
+    ?>
+
 </head>
 <body>
 
@@ -29,7 +55,7 @@
     
     <div class="cont-header">
         <h1>Passer une nouvelle commande</h1>
-        <a href="index.html" class="menu">
+        <a href="index.php" class="menu">
             Retour à l'accueil
         </a>
     </div>
@@ -131,11 +157,11 @@
                 </div>
                 <div class="cont-input radio">
                     <input type="radio" name="status" id="status" value="bought">
-                    <label for="available">Acheté</label>
+                    <label for="available">Achetée</label>
                 </div>
                 <div class="cont-input radio">
                     <input type="radio" name="status" id="status" value="packed">
-                    <label for="packed">Emballé</label>
+                    <label for="packed">Emballée</label>
                 </div>
                 <div class="cont-input radio">
                     <input type="radio" name="status" id="status" value="shipped">
@@ -194,7 +220,7 @@
 
 
         <div class="cont-btns">
-            <a href="index.html" class="cancel">
+            <a href="index.php" class="cancel">
                 Annuler
             </a>
 

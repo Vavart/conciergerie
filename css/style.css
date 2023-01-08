@@ -58,6 +58,10 @@ a {
   background: linear-gradient(97.13deg, #9586AD -2.98%, #504661 107.22%);
 }
 
+.notification {
+  color: #ff8989;
+}
+
 h1 {
   font-family: "Abril Fatface", serif;
   color: #ffffff;

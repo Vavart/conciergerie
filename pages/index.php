@@ -17,12 +17,24 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
 
+    <?php 
+    
+    $notification = '';
+    if (isset($_REQUEST['msg'])) {
+        if ($_REQUEST['msg'] == 'error') {
+            $notification = "Une erreur s'est produite, veuillez réessayer";
+        }
+    }
+
+    ?>
+
 </head>
 <body>
 
 <div class="page">
     
     <h1>Que souhaitez-vous faire ?</h1>
+    <p class="notification"><?= $notification ?></p>
     
     <main>
         <div class="cat client">

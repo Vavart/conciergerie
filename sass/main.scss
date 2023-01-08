@@ -45,6 +45,10 @@ a {
     margin-top: 15px;
 }
 
+.notification {
+    color: $fail;
+}
+
 // Pages
 @import "homepage";
 @import "forms";

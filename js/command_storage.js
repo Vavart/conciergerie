@@ -132,10 +132,13 @@ if (window.location.pathname.includes("add_command.php")) {
         point_section.appendChild(howManyPointsInput);
     }
 
-    else if (numeroClient != null && client_points.length === 0) {
-        const p = document.createElement("p");
-        p.innerText = "Ce client n'a aucun point disponible :(";
-        point_section.appendChild(p);
+    else if (client_points != null) {
+    
+        if (numeroClient != null && client_points.length === 0) {
+            const p = document.createElement("p");
+            p.innerText = "Ce client n'a aucun point disponible :(";
+            point_section.appendChild(p);
+        }
     }
 
 }
@@ -204,6 +207,19 @@ productSectionItems.forEach(child => {
     productSection.removeChild(child);
 })
 
+// Matching status
+const article_status_matching = {
+    'stock' : 'En stock',
+    'available' : 'Disponible',
+    'not_available' : 'Non disponible',
+    'out_of_stock' : 'En rupture de stock',
+    'gift' : 'Cadeau',
+    'packed' : 'Emballé',
+    'dispatched' : 'Expédié',
+    'arrived' : 'Arrivé',
+    'delivered' : 'Livré',
+    'other' : 'Autre'
+};
 
 // Add properly all the products
 for (let i = 0; i < nb_products; i++) {
@@ -263,7 +279,7 @@ for (let i = 0; i < nb_products; i++) {
     inputSec12.setAttribute("name", `product_status_${i+1}`);
     inputSec12.classList.add("locked");
     inputSec12.readOnly = true;
-    inputSec12.value = articleStatus;
+    inputSec12.value = article_status_matching[articleStatus];
 
     divSec1Input2.appendChild(labelSec1Input2)
     divSec1Input2.appendChild(inputSec12)

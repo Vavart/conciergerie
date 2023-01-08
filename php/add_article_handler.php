@@ -3,7 +3,7 @@
     include "sql_connection.php";
 
     // Gathering the fields values
-    $product_name = $_POST['product_name'];
+    $product_name = htmlspecialchars($_POST['product_name']);
     $unit_price = doubleval($_POST['price']);
     $nb_dispo = intval($_POST['nb_dispo']);
     $status = $_POST['status'];
@@ -17,6 +17,6 @@
 
     $result = $connect->query($query);
 
-    header('Location: ../pages/index.html');
+    header('Location: ../pages/index.php?msg=success');
     exit()
 ?>

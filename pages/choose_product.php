@@ -27,6 +27,19 @@
     $query = "SELECT * FROM produit";
     $result = $connect->query($query);
     $products = $result->fetch_all(MYSQLI_ASSOC);
+
+    $article_status_matching = array(
+        'stock' => 'En stock',
+        'available' => 'Disponible',
+        'not_available' => 'Non disponible',
+        'out_of_stock' => 'En rupture de stock',
+        'gift' => 'Cadeau',
+        'packed' => 'Emballé',
+        'dispatched' => 'Expédié',
+        'arrived' => 'Arrivé',
+        'delivered' => 'Livré',
+        'other' => 'Autre'
+    );
     
     ?>
 
@@ -77,7 +90,7 @@
                             <td><?= $product['id_produit'] ?></td>
                             <td><?= $product['product_name'] ?></td>
                             <td><?= $product['unit_price'] ?></td>
-                            <td><?= $product['status'] ?></td>
+                            <td><?= $article_status_matching[$product['status']]?></td>
                             <td><?= $product['nb_dispo'] ?></td>    
                         </tr>
                     <?php }

@@ -43,6 +43,10 @@
         $result = $connect->query($query);
     }
 
+    // delete invoice
+    $query = "DELETE FROM facture WHERE id_commande='$id_commande'";
+    $result = $connect->query($query);
+
     // delete commande
     $query = "DELETE FROM commande WHERE id_commande='$id_commande'";
     $result = $connect->query($query);

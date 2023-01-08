@@ -63,6 +63,30 @@
 
     // for later
     $code_commande = $command['numero'];
+
+    $command_status_matching = array(
+        'to_buy' => 'À acheter',
+        'bought' => 'Achetée',
+        'packed' => 'Emballée',
+        'shipped' => 'Expédiée',
+        'arrived' => 'Arrivée',
+        'delivered' => 'Livrée',
+        'done' => 'Terminée'
+    );
+
+    $article_status_matching = array(
+        'stock' => 'En stock',
+        'available' => 'Disponible',
+        'not_available' => 'Non disponible',
+        'out_of_stock' => 'En rupture de stock',
+        'gift' => 'Cadeau',
+        'packed' => 'Emballé',
+        'dispatched' => 'Expédié',
+        'arrived' => 'Arrivé',
+        'delivered' => 'Livré',
+        'other' => 'Autre'
+    );
+
     ?>
 
 </head>
@@ -189,7 +213,7 @@
                             </div>
                             <div class="cont-input">
                                 <label for="">Status</label>
-                                <input type="text" name="product_status_<?= $i ?>" class="locked" readonly value="<?= $product['status'] ?>">
+                                <input type="text" name="product_status_<?= $i ?>" class="locked" readonly value="<?= $article_status_matching[$product['status']] ?>">
                             </div>
                         </div>
 
@@ -320,23 +344,23 @@
                     if ($command['status'] == "bought") { ?>
                     <div class="cont-input radio">
                         <input type="radio" name="status" id="status" value="bought" checked>
-                        <label for="available">Acheté</label>
+                        <label for="available">Achetée</label>
                     </div>
                     <?php } else { ?>
                     <div class="cont-input radio">
                         <input type="radio" name="status" id="status" value="bought">
-                        <label for="available">Acheté</label>
+                        <label for="available">Achetée</label>
                     </div>
                     <?php }
                     if ($command['status'] == "packed") { ?>
                     <div class="cont-input radio">
                         <input type="radio" name="status" id="status" value="packed" checked>
-                        <label for="packed">Emballé</label>
+                        <label for="packed">Emballée</label>
                     </div>
                     <?php } else { ?>
                     <div class="cont-input radio">
                         <input type="radio" name="status" id="status" value="packed">
-                        <label for="packed">Emballé</label>
+                        <label for="packed">Emballée</label>
                     </div>
                     <?php }
                     if ($command['status'] == "shipped") { ?>
@@ -429,7 +453,7 @@
         </div>
 
         <div class="cont-btns">
-            <a href="index.html" class="cancel">
+            <a href="index.php" class="cancel">
                 Annuler
             </a>
 

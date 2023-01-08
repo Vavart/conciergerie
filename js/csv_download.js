@@ -1,3 +1,14 @@
+// Matching status
+const command_status_matching = {
+    'to_buy' : 'À acheter',
+    'bought' : 'Achetée',
+    'packed' : 'Emballée',
+    'shipped' : 'Expédiée',
+    'arrived' : 'Arrivée',
+    'delivered' : 'Livrée',
+    'done' : 'Terminée'
+};
+
 function dataToCSV() {
 
 	// final csv data
@@ -26,7 +37,7 @@ function dataToCSV() {
         row.push(rows[i].getAttribute("data-total-deposits-amounts"));
         row.push(rows[i].getAttribute("data-rest-to-pay"));
         row.push(rows[i].getAttribute("data-points"));
-        row.push(rows[i].getAttribute("data-status"));
+        row.push(command_status_matching[rows[i].getAttribute("data-status")]);
         row.push(rows[i].getAttribute("data-cmd-arrival-date"));
         row.push(rows[i].getAttribute("data-note"));
 
