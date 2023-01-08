@@ -91,7 +91,7 @@
                 $client = $client[0];
             
             ?>
-            <h2 class="sec-title">Informations client</h2>
+            <h2 class="sec-title">Informations client <a href="client.php?id=<?= $client['code'] ?>" target="_blank" class="see-more-client">(voir plus)</a></h2>
             <div class="section">
                 
                 <div class="sec">
@@ -163,9 +163,6 @@
             <div class="section product-section">
                 <!-- Products will be displayed here -->
                 <?php
-                    // echo "<pre>";
-                    // print_r($rest_to_pay_before);
-                    // echo "</pre>";
                 $i = 0;
                 foreach($ids_article as $id_article) {
                     $id_article = $id_article['id_produit'];
@@ -203,7 +200,7 @@
                             </div>
                             <div class="cont-input">
                                 <label for="">Prix vendu (en €)</label>
-                                <input type="number" name="product_sold_price_<?= $i ?>" value="<?= $data_product['sold_price'] ?>">
+                                <input type="number" name="product_sold_price_<?= $i ?>" value="<?= $data_product['sold_price'] ?>" required>
                             </div>
                         </div>
 
@@ -214,7 +211,7 @@
                             </div>
                             <div class="cont-input">
                                 <label for="">Quantité</label>
-                                <input type="number" name="product_quantity_<?= $i ?>" value="<?= $data_product['quantity'] ?>">
+                                <input type="number" name="product_quantity_<?= $i ?>" value="<?= $data_product['quantity'] ?>" required>
                             </div>
                             <div class="cont-input">
                                 <button class="delete-btn" type="button" data-id="<?= $i ?>" data-order="<?= $i ?>">
@@ -301,7 +298,7 @@
             <!-- Note -->
             <h2 class="sec-title">Note</h2>
             <div class="section cont-note">
-                <textarea name="command_note" id="command_note"><?= $command['note'] ?></textarea>
+                <textarea name="command_note" id="command_note" required><?= $command['note'] ?></textarea>
             </div>
 
             <!-- Status -->
@@ -395,11 +392,11 @@
                 <div class="sec">
                     <div class="cont-input">
                         <label for="">Frais de livraison (en €)</label>
-                        <input type="number" name="delivery_fee" id="delivery_fee" value="<?= $command['delivery_price'] ?>">
+                        <input type="number" name="delivery_fee" id="delivery_fee" value="<?= $command['delivery_price'] ?>" required>
                     </div>
                     <div class="cont-input">
                         <label for="">Frais de service (en €)</label>
-                        <input type="number" name="service_fee" id="service_fee" value="<?= $command['service_price'] ?>">
+                        <input type="number" name="service_fee" id="service_fee" value="<?= $command['service_price'] ?>" required>
                     </div>
                 </div>
 

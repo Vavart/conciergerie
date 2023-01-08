@@ -118,7 +118,7 @@
             <!-- Note -->
             <h2 class="sec-title">Note</h2>
             <div class="section cont-note">
-                <textarea name="command_note" id="command_note" placeholder="Un item est cassé"></textarea>
+                <textarea name="command_note" id="command_note" placeholder="Un item est cassé" required></textarea>
             </div>
 
             <!-- Status -->
@@ -162,11 +162,11 @@
                 <div class="sec">
                     <div class="cont-input">
                         <label for="">Frais de livraison (en €)</label>
-                        <input type="number" name="delivery_fee" id="delivery_fee" placeholder="0">
+                        <input type="number" name="delivery_fee" id="delivery_fee" placeholder="0" required>
                     </div>
                     <div class="cont-input">
                         <label for="">Frais de service (en €)</label>
-                        <input type="number" name="service_fee" id="service_fee" placeholder="0">
+                        <input type="number" name="service_fee" id="service_fee" placeholder="0" required>
                     </div>
                 </div>
 

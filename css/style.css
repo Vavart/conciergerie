@@ -190,6 +190,10 @@ form {
   align-items: flex-start;
 }
 
+a.see-more-client {
+  text-decoration: underline;
+}
+
 .cont-numeros {
   display: flex;
   flex-direction: column;

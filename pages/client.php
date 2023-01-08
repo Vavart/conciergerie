@@ -129,25 +129,25 @@
                     <div class="sec">
                         <div class="cont-input large">
                             <label for="address">Adresse postale</label>
-                            <input type="text" name="address" id="address" placeholder="6 rue du Pastaga 72000 Le Mans" class="" value="<?= $client['postal_address'] ?>">
+                            <input type="text" name="address" id="address" placeholder="6 rue du Pastaga 72000 Le Mans" class="" value="<?= $client['postal_address'] ?>" required>
                         </div>
                     </div>
 
                     <div class="sec">
                         <div class="cont-input">
                             <label for="mail">Adresse mail</label>
-                            <input type="email" name="mail" id="mail" class="" placeholder="jeanmi_300@yahoo.fr" value="<?= $client['email'] ?>">
+                            <input type="email" name="mail" id="mail" class="" placeholder="jeanmi_300@yahoo.fr" value="<?= $client['email'] ?>" required>
                         </div>
                     </div>
 
                     <div class="sec">
                         <div class="cont-input">
                             <label for="facebook">Facebook</label>
-                            <input type="text" name="facebook" id="facebook" placeholder="JM Moulin" value="<?= $client['facebook_username'] ?>">
+                            <input type="text" name="facebook" id="facebook" placeholder="JM Moulin" value="<?= $client['facebook_username'] ?>" required>
                         </div>
                         <div class="cont-input">
                             <label for="facebook">Instagram</label>
-                            <input type="text" name="instagram" id="instagram" placeholder="jmm20" value="<?= $client['instagram_username'] ?>">
+                            <input type="text" name="instagram" id="instagram" placeholder="jmm20" value="<?= $client['instagram_username'] ?>" required>
                         </div>
                     </div>
 
@@ -163,12 +163,12 @@
                                     if ($i == 0) { ?>
                                         <div class="cont-input">
                                             <label for="phone_number">Numéro(s) de téléphone</label>
-                                            <input type="text" name="phone_number_1" id="phone_number" placeholder="+3364585956271" value="<?= $phone_number['numero'] ?>">
+                                            <input type="text" name="phone_number_1" id="phone_number" placeholder="+3364585956271" value="<?= $phone_number['numero'] ?>" required>
                                         </div>
                                         <?php } else { ?>
                                         <div class="cont-input">
                                             <div class="cont-input-btn">
-                                                <input type="text" name="<?='phone_number_'.$i+1 ?>" id="phone_number" placeholder="+3364585956271" value="<?= $phone_number['numero'] ?>">
+                                                <input type="text" name="<?='phone_number_'.$i+1 ?>" id="phone_number" placeholder="+3364585956271" value="<?= $phone_number['numero'] ?>" required>
                                                 <button class="delete-btn" type="button">X</button>
                                             </div>
                                         </div>
@@ -194,7 +194,7 @@
                     <div class="sec">
                         <div class="cont-input">
                             <label for="">Réduction au prochain achat (en €)</label>
-                            <input type="number" name="next_discount" placeholder="30" required value="<?= $client['next_discount'] ?>">
+                            <input type="number" name="next_discount" placeholder="30" required value="<?= $client['next_discount'] ?>" required>
                         </div>
                     </div>
 

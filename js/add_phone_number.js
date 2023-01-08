@@ -48,6 +48,7 @@ btnToAddPhoneNumber.addEventListener("click", () => {
     input.setAttribute("name", `phone_number_${nbOfNumbersAdded}`);
     input.setAttribute("id", "phone_number");
     input.setAttribute("placeholder", "+3364585956271");
+    input.required = true;
 
     // Add element do DOM
     innerDiv.appendChild(input);
